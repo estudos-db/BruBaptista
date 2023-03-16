@@ -9,4 +9,12 @@ export class Livro {
         this.titulo = titulo;
         this.autor = autor;
     }
+
+    public getAutor() {
+        return this.autor;
+    }
+
+    public getTitulo() {
+        return this.titulo;
+    }
 }

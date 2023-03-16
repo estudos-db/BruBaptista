@@ -16,14 +16,18 @@ export class Pessoa {
 
     public devolver(livro: Livro) {
         let emprestimoAtual: Emprestimo;
-        const buffer: Array<Emprestimo>;
-        do {
+        const buffer = new Array<Emprestimo>;
+        while (this.emprestimos.length > 0) {
             let livroAtual: Livro;
             emprestimoAtual = this.emprestimos.pop();
             livroAtual = emprestimoAtual.getLivro();
-            if () {
+            if (livroAtual.getAutor() == livro.getAutor() && livroAtual.getTitulo() == livro.getTitulo()) {
+                break;
+            } else {
                 buffer.push(emprestimoAtual);
             }
         }
+        while (buffer.length > 0)
+            this.emprestimos.push(buffer.pop());
     }
 }
