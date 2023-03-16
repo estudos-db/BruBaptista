@@ -1,0 +1,24 @@
+{
+  "type": "module",
+  "name": "aula-2",
+  "version": "1.0.0",
+  "description": "Configuração padrão do Node.js com TypeScript, Nodemon e TS-Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest --runInBand",
+    "start": "ts-node src/index.ts",
+    "watch": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.7.23",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}
