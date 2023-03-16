@@ -1,0 +1,13 @@
+package bankProjectHerdado;
+
+public class TesteFuncionario {
+
+	public static void main(String[] args) {
+		Funcionario nico = new Funcionario();
+		nico.setNome("Nico Nico Ni");
+		nico.setCpf("111222333-4");
+		nico.setSalario(2590.80);
+		
+	}
+
+}

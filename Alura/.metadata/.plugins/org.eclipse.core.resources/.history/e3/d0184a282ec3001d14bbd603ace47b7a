@@ -1,0 +1,6 @@
+package bankProjectHerdado;
+
+public class Funcionario {
+	private String nome;
+	
+}

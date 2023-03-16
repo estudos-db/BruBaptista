@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move package &apos;sintaxeBasica&apos; to &apos;sintaxeVariaveisEFluxo/src&apos;&#x0D;&#x0A;- Original project: &apos;sintaxeBasica&apos;&#x0D;&#x0A;- Destination element: &apos;sintaxeVariaveisEFluxo/src&apos;&#x0D;&#x0A;- Original element: &apos;sintaxeBasica/src/sintaxeBasica&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move package" destination="=sintaxeVariaveisEFluxo/src" element1="/src&lt;sintaxeBasica" flags="589830" fragments="1" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.movePackages" stamp="1677873389247" version="1.0"/>
+</session>
