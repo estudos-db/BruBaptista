@@ -18,10 +18,6 @@ public class Pessoa {
         this.mae = mae;
     }
 
-    public void imprime() {
-        System.out.println("Nome: " + this.nome + ", idade: " + this.idade);
-    }
-
     public void imprimePais() {
         System.out.print("Nome: " + this.nome + "\nPai: ");
         if(this.pai != null)

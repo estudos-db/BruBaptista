@@ -7,19 +7,19 @@
 // console.log(pessoaMenor.verificar());
 
 // Exercício 2
-import { Produto } from './../exercicio-2/Produto.js';
-import { Carrinho } from './../exercicio-2/Carrinho.js';
+// import { Produto } from './../exercicio-2/Produto.js';
+// import { Carrinho } from './../exercicio-2/Carrinho.js';
 
-const mouse = new Produto('mouse', 8);
-const carrinho = new Carrinho([mouse]);
-console.log(carrinho.getValorTotal());
+// const mouse = new Produto('mouse', 8);
+// const carrinho = new Carrinho([mouse]);
+// console.log(carrinho.getValorTotal());
 
-mouse.setQuantidade(11);
-console.log(carrinho.getValorTotal());
-mouse.setQuantidade(21);
-console.log(carrinho.getValorTotal());
-mouse.setQuantidade(51);
-console.log(carrinho.getValorTotal());
+// mouse.setQuantidade(11);
+// console.log(carrinho.getValorTotal());
+// mouse.setQuantidade(21);
+// console.log(carrinho.getValorTotal());
+// mouse.setQuantidade(51);
+// console.log(carrinho.getValorTotal());
 
 // Exercício 3
 // import { Escolhas } from './../exercicio-3/Jokenpo.js';
@@ -157,10 +157,10 @@ console.log(carrinho.getValorTotal());
 //     menu.getOperador()));
 
 // Exercício 16
-// import { Livro } from './../exercicio-16/Livro.js';
-// import { Pessoa } from './../exercicio-16/Pessoa.js';
+import { Livro } from './../exercicio-16/Livro.js';
+import { Pessoa } from './../exercicio-16/Pessoa.js';
 
-// const pessoa = new Pessoa('atypus');
-// const livro = new Livro('Bottomless', 'Sera');
+const pessoa = new Pessoa('atypus');
+const livro = new Livro('Bottomless', 'Sera');
 
-// console.log(pessoa.pegarEmprestado(livro));
+console.log(pessoa.pegarEmprestado(livro));
