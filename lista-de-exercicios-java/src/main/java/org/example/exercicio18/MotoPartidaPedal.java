@@ -10,7 +10,7 @@ public class MotoPartidaPedal extends Moto{
 
     @Override
     public void ligar() {
-        if(aceleradorPush == true) {
+        if(aceleradorPush) {
             super.ligar();
             System.out.println("A moto está ligada");
         }
@@ -20,5 +20,6 @@ public class MotoPartidaPedal extends Moto{
 
     public void puxarAcelerador() {
         this.aceleradorPush = true;
+        System.out.println("O acelerador está puxado");
     }
 }

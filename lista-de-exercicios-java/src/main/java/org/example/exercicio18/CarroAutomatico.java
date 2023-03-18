@@ -10,7 +10,7 @@ public class CarroAutomatico extends Carro {
 
     @Override
     public void ligar() {
-        if(freioPress == true) {
+        if(freioPress) {
             super.ligar();
             System.out.println("O carro está ligado");
         }
@@ -20,5 +20,6 @@ public class CarroAutomatico extends Carro {
 
     public void pressionarFreio() {
         this.freioPress = true;
+        System.out.println("O freio está pressionado");
     }
 }

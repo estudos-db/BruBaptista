@@ -1,8 +1,8 @@
 package org.example.exercicio18;
 
 public class Automovel {
-    private int numRodas;
-    private int velMax;
+    private final int numRodas;
+    private final int velMax;
     private boolean ligado;
 
     public Automovel(int numRodas, int velMax) {
@@ -13,11 +13,14 @@ public class Automovel {
 
     public void ligar() {
         this.ligado = true;
-        System.out.println("O veículo está ligado");
+        System.out.println("O veículo agora está ligado");
     }
 
     public void desligar() {
-        this.ligado = false;
-        System.out.println("O veículo está desligado");
+        if(this.ligado) {
+            this.ligado = false;
+            System.out.println("O veículo agora está desligado");
+        } else
+            System.out.println("O veículo já está desligado");
     }
 }
