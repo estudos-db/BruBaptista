@@ -12,6 +12,7 @@ export class Pessoa {
 
     public pegarEmprestado(livro: Livro) {
         this.emprestimos.push(new Emprestimo(this, livro));
+        return `O ${livro.getTitulo()} foi emprestado.`
     }
 
     public devolver(livro: Livro) {
