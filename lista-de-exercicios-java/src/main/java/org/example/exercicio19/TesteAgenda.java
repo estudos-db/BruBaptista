@@ -15,13 +15,16 @@ public class TesteAgenda {
         rafflesia.setNome("a");
         rafflesia.setDdd(20);
         rafflesia.setNumero(111119999);
-        rafflesia.setCategoria("Moon");
-        rafflesia.getContato();
+        rafflesia.setCategoria(Categorias.TRABALHO);
+        System.out.println(rafflesia.getContato());
+
+        System.out.println();
         agenda.adicionarContato(sera);
         System.out.println();
         agenda.listarTodosContatos();
         System.out.println();
-        agenda.listarContatosPorCategoria("Moon");
+        agenda.listarContatosPorCategoria(Categorias.TRABALHO);
+        agenda.listarContatosPorCategoria(Categorias.FAMILIA);
 
     }
 }

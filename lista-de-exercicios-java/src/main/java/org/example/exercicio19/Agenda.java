@@ -30,15 +30,16 @@ public class Agenda {
             System.out.println("A agenda está vazia");
     }
 
-    public void listarContatosPorCategoria(String categoria) {
-        boolean encontrou = false;
+    public void listarContatosPorCategoria(Categorias categoria) {
+        ArrayList<Contato> lista = new ArrayList<Contato>();
         for (Contato contato : contatos)
-            if(contato.getCategoria().equals(categoria)) {
+            if(contato.getCategoria().toString().equals(categoria.toString()))
+                lista.add(contato);
+        if(lista.size() > 0) {
+            for (Contato contato : lista)
                 System.out.println(contato.getContato());
-                encontrou = true;
-            }
-        if(!encontrou)
-            System.out.println("Não existem contatos nessa categoria");
+        } else
+            System.out.println("Não existem contatos salvos nessa categoria");
     }
 
     public void editarNome(Contato contato, String novoNome) {
@@ -56,7 +57,7 @@ public class Agenda {
         System.out.println("O DDD do contato foi atualizado para: " + novoDdd);
     }
 
-    public void editarCategoria(Contato contato, String novaCategoria) {
+    public void editarCategoria(Contato contato, Categorias novaCategoria) {
         contato.setCategoria(novaCategoria);
         System.out.println("A categoria do contato foi atualizada para: " + novaCategoria);
     }

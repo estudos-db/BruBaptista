@@ -4,7 +4,7 @@ public class Contato {
     private String nome;
     private int numero;
     private int ddd;
-    private String categoria;
+    private Categorias categoria;
 
     public Contato(String nome, int ddd, int numero) {
         this.setNome(nome);
@@ -12,7 +12,7 @@ public class Contato {
         this.setNumero(numero);
     }
 
-    public Contato(String nome, int ddd, int numero, String categoria) {
+    public Contato(String nome, int ddd, int numero, Categorias categoria) {
         this.setNome(nome);
         this.setDdd(ddd);
         this.setNumero(numero);
@@ -26,7 +26,7 @@ public class Contato {
 
     public String getCategoria() {
         if(categoria != null)
-            return categoria;
+            return this.categoria.toString();
         else
             return "Não pertence a uma categoria";
     }
@@ -52,8 +52,7 @@ public class Contato {
         System.out.println("O DDD foi atualizado para: " + this.ddd);
     }
 
-    public void setCategoria(String categoria) {
-        validarCategoria(categoria);
+    public void setCategoria(Categorias categoria) {
         this.categoria = categoria;
         System.out.println("A categoria foi atualizada para: " + this.categoria);
     }
