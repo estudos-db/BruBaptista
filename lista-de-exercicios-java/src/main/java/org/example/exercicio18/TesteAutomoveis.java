@@ -41,6 +41,7 @@ public class TesteAutomoveis {
         guincho.ligar();
         guincho.desligar();
         guincho.carregar(carroA);
+        guincho.carregar(motoP);
         guincho.soltar();
         guincho.carregar(motoP);
         guincho.soltar();

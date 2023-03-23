@@ -7,23 +7,15 @@ public class Guincho extends Automovel {
         super(4, velMax);
     }
 
-    public void carregar(Carro carro) {
+    public void carregar(Automovel automovel) {
         if(carregando[0] == null) {
-            carregando[0] = carro;
-            System.out.println("Carro carregado com sucesso!");
+            carregando[0] = automovel;
+            System.out.println("Veículo carregado com sucesso!");
         }
         else
             System.out.println("O guincho já está carregando um veículo.");
     }
 
-    public void carregar(Moto moto) {
-        if(carregando[0] == null) {
-            carregando[0] = moto;
-            System.out.println("Moto carregada com sucesso!");
-        }
-        else
-            System.out.println("O guincho já está carregando um veículo.");
-    }
 
     public void soltar() {
         if(carregando[0] != null) {
