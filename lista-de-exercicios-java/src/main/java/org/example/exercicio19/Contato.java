@@ -24,11 +24,11 @@ public class Contato {
                 + this.numero + "\nCategoria: " + getCategoria();
     }
 
-    public String getCategoria() {
-        if(categoria != null)
-            return this.categoria.toString();
-        else
-            return "Não pertence a uma categoria";
+    public Categorias getCategoria() {
+        //if(categoria != null)
+            return this.categoria;
+        //else
+            //return "Não pertence a uma categoria";
     }
 
     public void setNome(String nome) {

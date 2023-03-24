@@ -33,7 +33,7 @@ public class Agenda {
     public void listarContatosPorCategoria(Categorias categoria) {
         ArrayList<Contato> lista = new ArrayList<Contato>();
         for (Contato contato : contatos)
-            if(contato.getCategoria().toString().equals(categoria.toString()))
+            if(contato.getCategoria() == categoria)
                 lista.add(contato);
         if(lista.size() > 0) {
             for (Contato contato : lista)
