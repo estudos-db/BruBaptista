@@ -25,10 +25,10 @@ public class Contato {
     }
 
     public Categorias getCategoria() {
-        //if(categoria != null)
+        if(categoria != null)
             return this.categoria;
-        //else
-            //return "Não pertence a uma categoria";
+        else
+            throw new NullPointerException("Não pertence a uma categoria");
     }
 
     public void setNome(String nome) {
