@@ -20,15 +20,8 @@ public class Contato {
     }
 
     public String getContato() {
-        return "Nome: " + this.nome + "\nTelefone: (" + this.ddd + ")"
-                + this.numero + "\nCategoria: " + getCategoria();
-    }
-
-    public Categorias getCategoria() {
-        if(categoria != null)
-            return this.categoria;
-        else
-            throw new NullPointerException("Não pertence a uma categoria");
+            return "Nome: " + this.nome + "\nTelefone: (" + this.ddd + ")"
+                    + this.numero + "\nCategoria: " + getCategoria();
     }
 
     public void setNome(String nome) {
@@ -38,11 +31,19 @@ public class Contato {
         System.out.println("O nome foi atualizado para: " + this.nome);
     }
 
+    public String getNome() {
+        return nome;
+    }
+
     public void setNumero(int numero) {
         if(numero < 10000000 || numero > 999999999)
             throw new IllegalArgumentException("O número deve ter 8 ou 9 dígitos");
         this.numero = numero;
         System.out.println("O número foi atualizado para: " + this.numero);
+    }
+
+    public int getNumero() {
+        return numero;
     }
 
     public void setDdd(int ddd) {
@@ -52,17 +53,19 @@ public class Contato {
         System.out.println("O DDD foi atualizado para: " + this.ddd);
     }
 
+    public int getDdd() {
+        return ddd;
+    }
+
     public void setCategoria(Categorias categoria) {
         this.categoria = categoria;
         System.out.println("A categoria foi atualizada para: " + this.categoria);
     }
 
-    private void validarCategoria(String categoria) {
-        if (categoria == null || categoria.trim().isEmpty())
-            throw new IllegalArgumentException("A categoria não pode ser vazia.");
-        if (categoria.contains(" "))
-            throw new IllegalArgumentException("A categoria não pode conter espaços.");
-        if (!Character.isUpperCase(categoria.charAt(0)))
-            throw new IllegalArgumentException("A categoria deve começar com uma letra maiúscula.");
+    public String getCategoria() {
+        if(categoria != null)
+            return categoria.toString();
+        else
+            return "Nenhuma";
     }
 }

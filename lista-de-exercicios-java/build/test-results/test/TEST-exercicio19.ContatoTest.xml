@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="exercicio19.ContatoTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-03-28T17:21:42" hostname="DESKTOP-QR7VAQO" time="0.052">
+  <properties/>
+  <testcase name="Deve alterar o nÃºmero do contato" classname="exercicio19.ContatoTest" time="0.029"/>
+  <testcase name="Deve retornar as informaÃ§Ãµes do contato" classname="exercicio19.ContatoTest" time="0.01"/>
+  <testcase name="Deve alterar o nome do contato" classname="exercicio19.ContatoTest" time="0.002"/>
+  <testcase name="Deve alterar o nÃºmero do contato" classname="exercicio19.ContatoTest" time="0.002"/>
+  <testcase name="Deve retornar a categoria do contato" classname="exercicio19.ContatoTest" time="0.002"/>
+  <testcase name="Deve alterar a categoria do contato" classname="exercicio19.ContatoTest" time="0.002"/>
+  <system-out><![CDATA[O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+O DDD foi atualizado para: 11
+O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+O nome foi atualizado para: pudica
+O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+O nÃºmero foi atualizado para: 989879898
+O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+O nome foi atualizado para: Rafflesia
+O DDD foi atualizado para: 25
+O nÃºmero foi atualizado para: 999991111
+O nome foi atualizado para: Sera
+O DDD foi atualizado para: 12
+O nÃºmero foi atualizado para: 973157318
+A categoria foi atualizada para: AMIGOS
+A categoria foi atualizada para: TRABALHO
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

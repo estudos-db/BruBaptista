@@ -33,7 +33,7 @@ public class Agenda {
     public void listarContatosPorCategoria(Categorias categoria) {
         ArrayList<Contato> lista = new ArrayList<Contato>();
         for (Contato contato : contatos)
-            if(contato.getCategoria() == categoria)
+            if(contato.getCategoria().equals(categoria.toString()))
                 lista.add(contato);
         if(lista.size() > 0) {
             for (Contato contato : lista)
@@ -41,6 +41,7 @@ public class Agenda {
         } else
             System.out.println("Não existem contatos salvos nessa categoria");
     }
+
 
     public void editarNome(Contato contato, String novoNome) {
         contato.setNome(novoNome);

@@ -3,7 +3,7 @@ package org.example.exercicio19;
 public class TesteAgenda {
     public static void main(String[] args) {
         Contato rafflesia = new Contato("Rafflesia", 25, 999991111);
-        Contato sera = new Contato("Sera", 12, 973157318);
+        Contato sera = new Contato("Sera", 12, 973157318, Categorias.AMIGOS);
         System.out.println(rafflesia.getContato());
         System.out.println(sera.getContato());
         System.out.println();
