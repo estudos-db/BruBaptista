@@ -157,3 +157,10 @@
 //     menu.getOperador()));
 
 // Exercício 16
+import { Livro } from './../exercicio-16/Livro.js';
+import { Pessoa } from './../exercicio-16/Pessoa.js';
+
+const pessoa = new Pessoa('atypus');
+const livro = new Livro('Bottomless', 'Sera');
+
+console.log(pessoa.pegarEmprestado(livro));
