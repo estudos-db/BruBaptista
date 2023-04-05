@@ -21,8 +21,4 @@ public class Loop {
             this.resposta = outraResposta;
         }
     }
-
-    public int getResposta() {
-        return resposta;
-    }
 }
