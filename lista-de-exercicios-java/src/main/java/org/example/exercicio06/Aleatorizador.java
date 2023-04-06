@@ -6,8 +6,7 @@ import java.util.Random;
 public class Aleatorizador {
     public String aleatorizar(int numero) {
         int[] aleatorios = this.getAleatorios(numero);
-        String menorMaior = this.getMaiorMenor(this.getAleatorios(numero));
-        return Arrays.toString(aleatorios) + "\n" + menorMaior;
+        return Arrays.toString(aleatorios) + "\n" + this.getMaiorMenor(aleatorios);
     }
 
     public int[] getAleatorios(int numero) {
@@ -15,11 +14,10 @@ public class Aleatorizador {
             throw new IllegalArgumentException("O número deve ser positivo.");
 
         int[] aleatorios = new int[numero];
+        Random random = new Random();
 
-        for (int i = 0; i < 10; i ++) {
-            Random random = new Random();
-            int aleatoria = random.nextInt(101);
-            aleatorios[i] = aleatoria;
+        for (int i = 0; i < numero; i ++) {
+            aleatorios[i] = random.nextInt(101);
         }
         return aleatorios;
     }
