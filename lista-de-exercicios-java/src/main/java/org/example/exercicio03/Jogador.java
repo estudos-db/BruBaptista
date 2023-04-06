@@ -11,8 +11,4 @@ public class Jogador implements JogadorBase {
     public Escolhas getEscolha() {
         return escolha;
     }
-
-    public void setEscolha(Escolhas escolha) {
-        this.escolha = escolha;
-    }
 }

@@ -1,5 +1,9 @@
 package org.example.exercicio03;
 
+import static org.example.exercicio03.Escolhas.PEDRA;
+import static org.example.exercicio03.Escolhas.PAPEL;
+import static org.example.exercicio03.Escolhas.TESOURA;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +15,7 @@ class MaquinaTest {
         Maquina maquina = new Maquina();
         Escolhas escolha = maquina.getEscolha();
 
-        assertTrue(escolha == Escolhas.PEDRA || escolha == Escolhas.PAPEL ||
-                escolha == Escolhas.TESOURA);
+        assertTrue(escolha == PEDRA || escolha == PAPEL ||
+                escolha == TESOURA);
     }
 }

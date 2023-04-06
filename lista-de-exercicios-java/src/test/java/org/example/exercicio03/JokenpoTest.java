@@ -1,16 +1,17 @@
 package org.example.exercicio03;
 
+import static org.example.exercicio03.Escolhas.PEDRA;
+import static org.example.exercicio03.Escolhas.PAPEL;
+import static org.example.exercicio03.Escolhas.TESOURA;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JokenpoTest {
-    Escolhas pedra = Escolhas.PEDRA;
-    Escolhas papel = Escolhas.PAPEL;
-    Escolhas tesoura = Escolhas.TESOURA;
-    Jogador jogadorPedra = new Jogador(pedra);
-    Jogador jogadorPapel = new Jogador(papel);
-    Jogador jogadorTesoura = new Jogador(tesoura);
+    Jogador jogadorPedra = new Jogador(PEDRA);
+    Jogador jogadorPapel = new Jogador(PAPEL);
+    Jogador jogadorTesoura = new Jogador(TESOURA);
 
     @DisplayName("A escolha pedra deve ganhar de tesoura")
     @Test

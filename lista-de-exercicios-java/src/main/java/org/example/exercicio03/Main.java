@@ -1,11 +1,12 @@
 package org.example.exercicio03;
 
+import static org.example.exercicio03.Escolhas.PEDRA;
+import static org.example.exercicio03.Escolhas.PAPEL;
+import static org.example.exercicio03.Escolhas.TESOURA;
+
 public class Main {
     public static void main(String[] args) {
-        Escolhas pedra = Escolhas.PEDRA;
-        Escolhas papel = Escolhas.PAPEL;
-        Escolhas tesoura = Escolhas.TESOURA;
-        Jogador jogador = new Jogador(pedra);
+        Jogador jogador = new Jogador(PEDRA);
         Maquina maquina = new Maquina();
         Jokenpo jokenpo = new Jokenpo(jogador, maquina);
         System.out.println(jokenpo.jogar());
