@@ -23,7 +23,6 @@ class FibonacciTest {
     @Test
     void deveRetornarArrayCorreto() {
         Fibonacci fibo = new Fibonacci();
-        ArrayList<Integer> fiboArray = fibo.serializar(9);
 
         assertArrayEquals(new Integer[] {0, 1, 1, 2, 3, 5, 8, 13, 21, 34}, fibo.serializar(9).toArray());
     }
