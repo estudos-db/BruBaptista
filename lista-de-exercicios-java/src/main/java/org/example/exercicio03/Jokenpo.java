@@ -26,6 +26,6 @@ public class Jokenpo {
                 jogada1 == TESOURA && jogada2 == PAPEL ||
                 jogada1 == PEDRA && jogada2 == TESOURA)
             return "Vencedor: Player 1 com " + jogada1;
-        return "Vencedor: Player 2 com " + jogada2.toString();
+        return "Vencedor: Player 2 com " + jogada2;
     }
 }
