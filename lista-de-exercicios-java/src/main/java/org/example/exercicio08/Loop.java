@@ -13,12 +13,15 @@ public class Loop {
         int contagem = 0;
         while (this.resposta != numero) {
             System.out.println("Contador: " + contagem++);
-            while (!scanner.hasNextInt()) {
-                System.out.println("Digite um número inteiro válido: ");
-                scanner.next();
-            }
-            int outraResposta = scanner.nextInt();
-            this.resposta = outraResposta;
+            this.resposta = obterRespostaInteira();
         }
+    }
+
+    private int obterRespostaInteira() {
+        while (!scanner.hasNextInt()) {
+            System.out.println("Digite um número inteiro válido: ");
+            scanner.next();
+        }
+        return scanner.nextInt();
     }
 }
