@@ -1,8 +1,6 @@
 package org.example.exercicio03;
 
-import static org.example.exercicio03.Escolhas.PEDRA;
-import static org.example.exercicio03.Escolhas.PAPEL;
-import static org.example.exercicio03.Escolhas.TESOURA;
+import static org.example.exercicio03.Escolha.PEDRA;
 
 public class Main {
     public static void main(String[] args) {

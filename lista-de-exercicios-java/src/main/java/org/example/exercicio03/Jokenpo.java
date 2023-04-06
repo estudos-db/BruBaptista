@@ -1,8 +1,8 @@
 package org.example.exercicio03;
 
-import static org.example.exercicio03.Escolhas.PEDRA;
-import static org.example.exercicio03.Escolhas.PAPEL;
-import static org.example.exercicio03.Escolhas.TESOURA;
+import static org.example.exercicio03.Escolha.PEDRA;
+import static org.example.exercicio03.Escolha.PAPEL;
+import static org.example.exercicio03.Escolha.TESOURA;
 
 public class Jokenpo {
     private JogadorBase jogador1;
@@ -14,12 +14,12 @@ public class Jokenpo {
     }
 
     public String jogar() {
-        Escolhas jogada1 = this.jogador1.getEscolha();
-        Escolhas jogada2 = this.jogador2.getEscolha();
+        Escolha jogada1 = this.jogador1.getEscolha();
+        Escolha jogada2 = this.jogador2.getEscolha();
         return validarVencedor(jogada1, jogada2);
     }
 
-    private String validarVencedor(Escolhas jogada1, Escolhas jogada2) {
+    private String validarVencedor(Escolha jogada1, Escolha jogada2) {
         if(jogada1 == jogada2)
             return "Empate";
         else if(jogada1 == PAPEL && jogada2 == PEDRA ||

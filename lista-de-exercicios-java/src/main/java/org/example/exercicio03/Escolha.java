@@ -1,6 +1,6 @@
 package org.example.exercicio03;
 
-public enum Escolhas {
+public enum Escolha {
     PEDRA,
     PAPEL,
     TESOURA;

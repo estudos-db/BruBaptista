@@ -1,14 +1,14 @@
 package org.example.exercicio03;
 
 public class Jogador implements JogadorBase {
-    private Escolhas escolha;
+    private Escolha escolha;
 
-    public Jogador(Escolhas escolha) {
+    public Jogador(Escolha escolha) {
         this.escolha = escolha;
     }
 
     @Override
-    public Escolhas getEscolha() {
+    public Escolha getEscolha() {
         return escolha;
     }
 }

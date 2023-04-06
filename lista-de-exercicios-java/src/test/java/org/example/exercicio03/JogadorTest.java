@@ -1,8 +1,8 @@
 package org.example.exercicio03;
 
-import static org.example.exercicio03.Escolhas.PEDRA;
-import static org.example.exercicio03.Escolhas.PAPEL;
-import static org.example.exercicio03.Escolhas.TESOURA;
+import static org.example.exercicio03.Escolha.PEDRA;
+import static org.example.exercicio03.Escolha.PAPEL;
+import static org.example.exercicio03.Escolha.TESOURA;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
