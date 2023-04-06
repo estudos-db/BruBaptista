@@ -16,15 +16,16 @@ public class Jokenpo {
     public String jogar() {
         Escolhas jogada1 = this.jogador1.getEscolha();
         Escolhas jogada2 = this.jogador2.getEscolha();
+        return validarVencedor(jogada1, jogada2);
+    }
 
+    private String validarVencedor(Escolhas jogada1, Escolhas jogada2) {
         if(jogada1 == jogada2)
             return "Empate";
-        else if(jogada1 == PAPEL && jogada2 == PEDRA)
-            return "Vencedor: Player 1 com " + jogada1.toString();
-        else if(jogada1 == TESOURA && jogada2 == PAPEL)
-            return "Vencedor: Player 1 com " + jogada1.toString();
-        else if(jogada1 == PEDRA && jogada2 == TESOURA)
-            return "Vencedor: Player 1 com " + jogada1.toString();
+        else if(jogada1 == PAPEL && jogada2 == PEDRA ||
+                jogada1 == TESOURA && jogada2 == PAPEL ||
+                jogada1 == PEDRA && jogada2 == TESOURA)
+            return "Vencedor: Player 1 com " + jogada1;
         return "Vencedor: Player 2 com " + jogada2.toString();
     }
 }
