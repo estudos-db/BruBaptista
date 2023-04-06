@@ -7,7 +7,7 @@ public class Matriz {
         this.numeros = numeros;
     }
 
-    public int somar() {
+    public int somarDiagonal() {
         int soma = 0;
         for(int i = 0; i < this.numeros.length; i++) {
             soma += this.numeros[i][i];

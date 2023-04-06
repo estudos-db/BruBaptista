@@ -15,6 +15,6 @@ class MatrizTest {
                 {12, 13, 14, 15}
         });
 
-        assertEquals(30, matriz.somar());
+        assertEquals(30, matriz.somarDiagonal());
     }
 }
