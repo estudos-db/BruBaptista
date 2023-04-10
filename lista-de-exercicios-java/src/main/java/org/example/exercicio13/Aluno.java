@@ -32,6 +32,7 @@ public class Aluno {
         return this.media;
     }
 
+
     public String calcularStatus() {
         this.calcularMedia();
         if (this.media > 6)
@@ -39,6 +40,14 @@ public class Aluno {
         else if (this.media >= 4)
             this.status = "Verificação Suplementar";
         else this.status = "Reprovado";
-        return status;
+        return this.status;
+    }
+
+    public double getMedia() {
+        return this.media;
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 }
