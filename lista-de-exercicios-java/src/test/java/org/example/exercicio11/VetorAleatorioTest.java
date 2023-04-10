@@ -9,8 +9,18 @@ class VetorAleatorioTest {
     @Test
     void deveRetornarArrayComQuantidadeDeNumerosAleatorios() {
         VetorAleatorio vetorAleatorio = new VetorAleatorio(new int[100]);
-        int[] vetorAleatorioArray = vetorAleatorio.gerarNumeros();
+        vetorAleatorio.gerarNumeros();
+        int[] vetorAleatorioArray = vetorAleatorio.getNumeros();
 
         assertEquals(100, vetorAleatorioArray.length);
+    }
+
+    @DisplayName("Deve retornar o array ordenado de forma crescente")
+    @Test
+    void deveRetornarArrayEmOrdemCrescente() {
+        VetorAleatorio vetorAleatorio = new VetorAleatorio(new int[] {586, 480, 964, 843, 894, 954, 533, 221, 526, 237});
+        vetorAleatorio.ordenar();
+
+        assertArrayEquals(new int[]{221, 237, 480, 526, 533, 586, 843, 894, 954, 964}, vetorAleatorio.getNumeros());
     }
 }

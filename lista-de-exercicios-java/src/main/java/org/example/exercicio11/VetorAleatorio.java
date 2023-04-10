@@ -9,13 +9,12 @@ public class VetorAleatorio {
         this.numeros = numeros;
     }
 
-    public int[] gerarNumeros() {
+    public void gerarNumeros() {
         int quantidade = this.numeros.length;
         for (int i = 0; i < quantidade; i++) {
             int aleatorio = (int) Math.floor(Math.random() * 1000);
             this.numeros[i] = aleatorio;
         }
-        return this.numeros;
     }
 
     public int[] getNumeros() {
@@ -24,5 +23,18 @@ public class VetorAleatorio {
 
     public String getString() {
         return Arrays.toString(numeros);
+    }
+
+    public void ordenar() {
+        int[] array = this.numeros;
+        for (int i = 0; i < array.length - 1; i++) {
+            for (int j = 0; j < array.length - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
     }
 }

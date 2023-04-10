@@ -5,8 +5,7 @@ public class Main {
         VetorAleatorio vetorAleatorio = new VetorAleatorio(new int[100]);
         vetorAleatorio.gerarNumeros();
         System.out.println(vetorAleatorio.getString());
-        Ordenador ordenador = new Ordenador(vetorAleatorio.getNumeros());
-        ordenador.ordenar();
-        System.out.println(ordenador.getString());
+        vetorAleatorio.ordenar();
+        System.out.println(vetorAleatorio.getString());
     }
 }
