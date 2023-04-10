@@ -8,31 +8,22 @@ public class Aluno {
     private double media;
     private String status;
 
-    public Aluno(double nota) {
-        this.notas = new ArrayList<Double>();
-        this.notas.add(setNota(nota));
-        this.getMedia();
-        this.getStatus();
+    public Aluno() {
+        this.notas = new ArrayList<>();
     }
 
-    public double setNota(double nota) {
-        this.nota = nota;
-        if (nota <= 0)
-            throw new IllegalArgumentException("Uma nota não pode ser menor que zero.");
-        else if (nota >= 10)
-            throw new IllegalArgumentException("Uma nota não pode ser maior que dez.");
-        return nota;
+    public void adicionarNota(double nota) {
+        if (nota < 0 || nota > 10) {
+            throw new IllegalArgumentException("A nota deve estar entre 0 e 10.");
+        }
+        this.notas.add(nota);
     }
 
     public ArrayList<Double> getNotas() {
         return notas;
     }
 
-    public void adicionarNota(double nota) {
-        this.notas.add(nota);
-    }
-
-    public double getMedia() {
+    public double calcularMedia() {
         double soma = 0;
         for (int i = 0; i < this.notas.size(); i ++) {
             soma += this.notas.get(i);
@@ -41,13 +32,13 @@ public class Aluno {
         return this.media;
     }
 
-    public String getStatus() {
-        this.getMedia();
+    public String calcularStatus() {
+        this.calcularMedia();
         if (this.media > 6)
             this.status = "Aprovado";
         else if (this.media >= 4)
-            this.status = "Verificacao Suplementar";
+            this.status = "Verificação Suplementar";
         else this.status = "Reprovado";
-        return this.status;
+        return status;
     }
 }
