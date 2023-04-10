@@ -1,6 +1,6 @@
 package org.example.exercicio18;
 
-public class CarroAutomatico extends Carro {
+public class CarroAutomatico extends Carro implements VeiculoLigavel {
     private boolean freioPress;
 
     public CarroAutomatico(int velMax) {
@@ -8,18 +8,27 @@ public class CarroAutomatico extends Carro {
         this.freioPress = false;
     }
 
+    public boolean isFreioPressionado() {
+        return freioPress;
+    }
+
     @Override
     public void ligar() {
+        verificarEstado(true);
         if(freioPress) {
             super.ligar();
             System.out.println("O carro está ligado");
         }
         else
-            System.out.println("Favor pressionar o freio ao ligar");
+            throw new IllegalArgumentException("Favor pressionar o freio ao ligar");
     }
 
     public void pressionarFreio() {
-        this.freioPress = true;
-        System.out.println("O freio está pressionado");
+        if(freioPress)
+            throw new IllegalArgumentException("O freio já está pressionado");
+        else {
+            this.freioPress = true;
+            System.out.println("O freio está pressionado");
+        }
     }
 }
