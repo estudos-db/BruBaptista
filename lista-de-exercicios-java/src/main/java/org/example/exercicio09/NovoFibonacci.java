@@ -11,12 +11,15 @@ public class NovoFibonacci {
 
         validarNumero(numero);
 
-        for (int i = 0; f0 <= numero; i++) {
+        int i = 0;
+        do {
             serie.add(f0);
             int f = f0 + f1;
             f0 = f1;
             f1 = f;
-        }
+            i++;
+        } while (f0 <= numero);
+
         return serie;
     }
 
