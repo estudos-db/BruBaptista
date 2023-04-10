@@ -8,6 +8,6 @@ public class Main {
                 {8, 9, 10, 11},
                 {12, 13, 14, 15}
         });
-        System.out.println(matriz.somarDiagonal());
+        System.out.println(matriz.resposta());
     }
 }
