@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Combinador {
     private int[][] array;
-    private int[] soma;
+    private int[] arraysCombinados;
 
     public Combinador(int[][] array) {
         this.array = array;
@@ -18,8 +18,8 @@ public class Combinador {
                 somaList.add(array[i][j]);
             }
         }
-        soma = somaList.stream().mapToInt(Integer::intValue).toArray();
-        return soma;
+        arraysCombinados = somaList.stream().mapToInt(Integer::intValue).toArray();
+        return arraysCombinados;
     }
 }
 
