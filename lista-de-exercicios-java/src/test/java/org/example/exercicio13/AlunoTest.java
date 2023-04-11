@@ -48,12 +48,19 @@ class AlunoTest {
     void deveRetornarStatusCorreto() {
         Aluno alunoAprovado = new Aluno();
         alunoAprovado.adicionarNota(6.1);
+        alunoAprovado.calcularMedia();
+
         Aluno alunoSuplementar = new Aluno();
         alunoSuplementar.adicionarNota(6);
+        alunoSuplementar.calcularMedia();
+
         Aluno alunoSuplementar2 = new Aluno();
         alunoSuplementar2.adicionarNota(4);
+        alunoSuplementar2.calcularMedia();
+
         Aluno alunoReprovado = new Aluno();
         alunoReprovado.adicionarNota(3.9);
+        alunoReprovado.calcularMedia();
 
         assertEquals("Aprovado", alunoAprovado.calcularStatus());
         assertEquals("Verificação Suplementar", alunoSuplementar.calcularStatus());

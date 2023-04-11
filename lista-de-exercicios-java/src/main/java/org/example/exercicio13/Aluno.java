@@ -25,16 +25,14 @@ public class Aluno {
 
     public double calcularMedia() {
         double soma = 0;
-        for (int i = 0; i < this.notas.size(); i ++) {
-            soma += this.notas.get(i);
-        }
+        for (double nota : notas)
+            soma += nota;
         this.media = soma / this.notas.size();
         return this.media;
     }
 
 
     public String calcularStatus() {
-        this.calcularMedia();
         if (this.media > 6)
             this.status = "Aprovado";
         else if (this.media >= 4)
