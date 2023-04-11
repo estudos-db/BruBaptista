@@ -1,6 +1,6 @@
 package org.example.exercicio18;
 
-public class CarroAutomatico extends Carro implements VeiculoLigavel {
+public class CarroAutomatico extends Carro {
     private boolean freioPress;
 
     public CarroAutomatico(int velMax) {

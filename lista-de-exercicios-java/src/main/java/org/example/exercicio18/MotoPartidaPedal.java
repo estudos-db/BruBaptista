@@ -1,6 +1,6 @@
 package org.example.exercicio18;
 
-public class MotoPartidaPedal extends Moto implements VeiculoLigavel {
+public class MotoPartidaPedal extends Moto {
     private boolean aceleradorPush;
 
     public MotoPartidaPedal(int velMax) {

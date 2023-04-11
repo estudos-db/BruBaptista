@@ -11,9 +11,9 @@ public class Guincho extends Automovel {
         return carregando;
     }
 
-    public void carregar(Automovel automovel) {
+    public void carregar(Guinchavel veiculo) {
         if(carregando[0] == null) {
-            carregando[0] = automovel;
+            carregando[0] = veiculo;
             System.out.println("Veículo carregado com sucesso!");
         }
         else

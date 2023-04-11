@@ -7,13 +7,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class GuinchoTest {
 
     Guincho guincho = new Guincho(10);
-    @DisplayName("Deve carregar um veículo caso não esteja carregando nada")
+    @DisplayName("Deve carregar um carro caso não esteja carregando nada")
     @Test
-    void deveCarregarUmVeiculo() {
+    void deveCarregarUmCarro() {
         Carro carro = new Carro(15);
         guincho.carregar(carro);
 
         assertEquals(carro, guincho.getCarregando()[0]);
+    }
+
+    @DisplayName("Deve carregar uma moto caso não esteja carregando nada")
+    @Test
+    void deveCarregarUmaMoto() {
+        Moto moto = new Moto(25);
+        guincho.carregar(moto);
+
+        assertEquals(moto, guincho.getCarregando()[0]);
     }
 
     @DisplayName("Deve retornar erro ao tentar carregar um veículo enquanto já está carregando um")
