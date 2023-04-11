@@ -1,18 +1,17 @@
 package org.example.exercicio12;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Somador {
+public class Combinador {
     private int[][] array;
     private int[] soma;
 
-    public Somador(int[][] array) {
+    public Combinador(int[][] array) {
         this.array = array;
     }
 
-    public int[] somar() {
+    public int[] combinar() {
         List<Integer> somaList = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {

@@ -20,8 +20,8 @@ public class Main {
         System.out.println(vetor2.getString());
         System.out.println();
 
-        Somador somador = new Somador(new int[][] {vetor1.getNumeros(), vetor2.getNumeros()});
-        int[] soma = somador.somar();
+        Combinador combinador = new Combinador(new int[][] {vetor1.getNumeros(), vetor2.getNumeros()});
+        int[] soma = combinador.combinar();
         System.out.println(Arrays.toString(soma));
 
         VetorAleatorio vetor3 = new VetorAleatorio(soma);
