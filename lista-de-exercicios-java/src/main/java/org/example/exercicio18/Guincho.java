@@ -7,22 +7,14 @@ public class Guincho extends Automovel {
         super(4, velMax);
     }
 
-    public void carregar(Carro carro) {
-        if(carregando[0] == null) {
-            carregando[0] = carro;
-            System.out.println("Carro carregado com sucesso!");
-        }
-        else
-            System.out.println("O guincho já está carregando um veículo.");
+    public Object[] getCarregando() {
+        return carregando;
     }
 
-    public void carregar(Moto moto) {
-        if(carregando[0] == null) {
-            carregando[0] = moto;
-            System.out.println("Moto carregada com sucesso!");
-        }
-        else
-            System.out.println("O guincho já está carregando um veículo.");
+    public void carregar(Automovel veiculo) {
+        validarAutomovel(veiculo);
+        carregando[0] = veiculo;
+        System.out.println("Veículo carregado com sucesso!");
     }
 
     public void soltar() {
@@ -31,7 +23,14 @@ public class Guincho extends Automovel {
             System.out.println("Veículo solto com sucesso!");
         }
         else {
-            System.out.println("O guincho não está carregando nenhum veículo.");
+            throw new IllegalArgumentException("O guincho não está carregando nenhum veículo.");
         }
+    }
+
+    private void validarAutomovel(Automovel veiculo) {
+        if(!(veiculo instanceof Carro) && !(veiculo instanceof Moto))
+            throw new IllegalArgumentException("O guincho só pode carregar carros e motos");
+        if(carregando[0] != null)
+            throw new IllegalArgumentException("O guincho já está carregando um veículo.");
     }
 }
