@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.exercicio19.AgendaTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2023-04-14T15:06:04" hostname="DESKTOP-QR7VAQO" time="0.038">
+  <properties/>
+  <testcase name="Deve retornar erro ao tentar adicionar um contato jÃ¡ presente na agenda" classname="org.example.exercicio19.AgendaTest" time="0.023"/>
+  <testcase name="Deve adicionar um novo contato" classname="org.example.exercicio19.AgendaTest" time="0.001"/>
+  <testcase name="Deve retornar erro ao tentar listar todos contatos na agenda vazia" classname="org.example.exercicio19.AgendaTest" time="0.002"/>
+  <testcase name="Deve buscar um contato na agenda" classname="org.example.exercicio19.AgendaTest" time="0.002"/>
+  <testcase name="Deve retornar erro ao tentar buscar um contato nÃ£o presente na agenda" classname="org.example.exercicio19.AgendaTest" time="0.002"/>
+  <testcase name="Deve retornar erro ao tentar remover um contato nÃ£o presente na agenda" classname="org.example.exercicio19.AgendaTest" time="0.001"/>
+  <testcase name="Deve listar todos contatos na agenda" classname="org.example.exercicio19.AgendaTest" time="0.001"/>
+  <testcase name="Deve remover um contato presente na agenda" classname="org.example.exercicio19.AgendaTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
