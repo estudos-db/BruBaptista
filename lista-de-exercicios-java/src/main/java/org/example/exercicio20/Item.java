@@ -4,13 +4,11 @@ public class Item {
     private Produto produto;
     private int quantidade;
     private double valorDoItem;
-    private double valorTotalDoItem;
 
     public Item(Produto produto, int quantidade) {
         this.produto = produto;
         this.setQuantidade(quantidade);
         this.valorDoItem = produto.getPreco();
-        this.valorTotalDoItem = defineValorTotal();
     }
 
     public double defineValorTotal() {
