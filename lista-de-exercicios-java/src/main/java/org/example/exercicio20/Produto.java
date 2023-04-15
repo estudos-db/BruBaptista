@@ -45,7 +45,7 @@ public class Produto {
 
     public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
         if(quantidadeEmEstoque <= 0)
-            throw new IllegalArgumentException("Qauntidade inválida");
+            throw new IllegalArgumentException("Quantidade inválida");
         this.quantidadeEmEstoque = quantidadeEmEstoque;
     }
 }
