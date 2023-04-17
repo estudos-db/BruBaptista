@@ -31,7 +31,7 @@ public class Agenda {
 
     public String listarTodosContatos() {
         if(contatos.size() == 0)
-            throw new IllegalArgumentException("A agenda está vazia");
+            return "A agenda está vazia";
 
         StringBuilder todosContatos = new StringBuilder();
         for(Contato contato : contatos)

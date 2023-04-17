@@ -91,9 +91,9 @@ class AgendaTest {
                 "São Paulo, SP\n", agenda.listarTodosContatos());
     }
 
-    @DisplayName("Deve retornar erro ao tentar listar todos contatos na agenda vazia")
+    @DisplayName("Deve retornar essa mensagem ao tentar listar todos contatos na agenda vazia")
     @Test
-    void deveRetornarErroListarContatosNaAgendaVazia() {
-        assertThrows(IllegalArgumentException.class, () -> agenda.listarTodosContatos());
+    void deveRetornarMensagemListarContatosNaAgendaVazia() {
+        assertEquals("A agenda está vazia", agenda.listarTodosContatos());
     }
 }
