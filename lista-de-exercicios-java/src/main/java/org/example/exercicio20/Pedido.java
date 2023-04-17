@@ -35,7 +35,7 @@ public class Pedido {
                     .append(", por: ")
                     .append(item.defineValorTotal())
                     .append("\n");
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     public void imprimeValorTotal() {
@@ -60,15 +60,7 @@ public class Pedido {
         return listaDeItens;
     }
 
-    public void setListaDeItens(ArrayList<Item> listaDeItens) {
-        this.listaDeItens = listaDeItens;
-    }
-
     public double getValorTotalDoPedido() {
         return valorTotalDoPedido;
-    }
-
-    public void setValorTotalDoPedido(double valorTotalDoPedido) {
-        this.valorTotalDoPedido = valorTotalDoPedido;
     }
 }

@@ -1,8 +1,8 @@
 package org.example.exercicio20;
 
 public class Produto {
-    private int id;
-    private String nome;
+    private final int id;
+    private final String nome;
     private double preco;
     private int quantidadeEmEstoque;
 
@@ -17,16 +17,8 @@ public class Produto {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public double getPreco() {
@@ -44,7 +36,7 @@ public class Produto {
     }
 
     public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
-        if(quantidadeEmEstoque <= 0)
+        if(quantidadeEmEstoque < 0)
             throw new IllegalArgumentException("Quantidade inválida");
         this.quantidadeEmEstoque = quantidadeEmEstoque;
     }

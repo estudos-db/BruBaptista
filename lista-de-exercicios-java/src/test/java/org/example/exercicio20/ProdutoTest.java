@@ -19,11 +19,8 @@ class ProdutoTest {
 
     @DisplayName("Deve retornar erro ao setar a quantidade em zero ou negativo")
     @Test
-    void deveRetornarErroQuantidadeZeroOuNegativo() {
+    void deveRetornarErroQuantidadeNegativa() {
         assertThrows(IllegalArgumentException.class, () ->
                 produto = new Produto(1, "batata", 10, -10));
-
-        assertThrows(IllegalArgumentException.class, () ->
-                produto = new Produto(1, "batata", 10, 0));
     }
 }

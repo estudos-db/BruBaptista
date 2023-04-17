@@ -1,9 +1,9 @@
 package org.example.exercicio20;
 
 public class Item {
-    private Produto produto;
+    private final Produto produto;
     private int quantidade;
-    private double valorDoItem;
+    private final double valorDoItem;
 
     public Item(Produto produto, int quantidade) {
         this.produto = produto;
@@ -19,10 +19,6 @@ public class Item {
         return produto;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
     public int getQuantidade() {
         return quantidade;
     }
@@ -31,13 +27,5 @@ public class Item {
         if(quantidade <= 0)
             throw new IllegalArgumentException("Quantidade inválida");
         this.quantidade = quantidade;
-    }
-
-    public double getValorDoItem() {
-        return valorDoItem;
-    }
-
-    public void setValorDoItem(double valorDoItem) {
-        this.valorDoItem = valorDoItem;
     }
 }

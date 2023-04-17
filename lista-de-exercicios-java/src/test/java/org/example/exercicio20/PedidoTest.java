@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PedidoTest {
 
     Produto batata = new Produto(1, "batata", 10, 1);
-    Produto tomate = new Produto(1, "tomate", 15, 1);
+    Produto tomate = new Produto(2, "tomate", 15, 1);
     Pedido pedido = new Pedido();
 
     @DisplayName("Deve adicionar um item na lista de itens")
