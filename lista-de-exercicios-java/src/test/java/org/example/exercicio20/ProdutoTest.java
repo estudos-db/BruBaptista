@@ -11,16 +11,28 @@ class ProdutoTest {
     @Test
     void deveRetornarErroPrecoZeroOuNegativo() {
         assertThrows(IllegalArgumentException.class, () ->
-                produto = new Produto(1, "batata", -10, 1));
+                produto = new Produto("batata", -10, 1));
 
         assertThrows(IllegalArgumentException.class, () ->
-                produto = new Produto(1, "batata", 0, 1));
+                produto = new Produto("batata", 0, 1));
     }
 
     @DisplayName("Deve retornar erro ao setar a quantidade em zero ou negativo")
     @Test
     void deveRetornarErroQuantidadeNegativa() {
         assertThrows(IllegalArgumentException.class, () ->
-                produto = new Produto(1, "batata", 10, -10));
+                produto = new Produto("batata", 10, -10));
+    }
+
+    @DisplayName("Deve aumentar o id em 1 a cada novo produto criado")
+    @Test
+    void deveAumentarId() {
+        Produto batata = new Produto("batata", 10, 1);
+        Produto tomate = new Produto("tomate", 15, 1);
+        Produto alface = new Produto("alface", 5, 1);
+
+        assertEquals(2, batata.getId());
+        assertEquals(3, tomate.getId());
+        assertEquals(4, alface.getId());
     }
 }

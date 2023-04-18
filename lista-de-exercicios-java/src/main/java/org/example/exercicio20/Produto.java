@@ -1,13 +1,14 @@
 package org.example.exercicio20;
 
 public class Produto {
+    private static int idContagem = 1;
     private final int id;
     private final String nome;
     private double preco;
     private int quantidadeEmEstoque;
 
-    public Produto(int id, String nome, double preco, int quantidadeEmEstoque) {
-        this.id = id;
+    public Produto(String nome, double preco, int quantidadeEmEstoque) {
+        this.id = idContagem++;
         this.nome = nome;
         this.setPreco(preco);
         this.setQuantidadeEmEstoque(quantidadeEmEstoque);

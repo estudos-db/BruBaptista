@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 
-    Produto batata = new Produto(1, "batata", 10, 1);
+    Produto batata = new Produto("batata", 10, 1);
     Item item;
     @DisplayName("Deve retornar erro ao setar a quantidade em zero ou negativo")
     @Test

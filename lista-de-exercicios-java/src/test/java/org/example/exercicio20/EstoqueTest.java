@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EstoqueTest {
 
-    Produto batata = new Produto(1, "batata", 10, 1);
-    Produto tomate = new Produto(2, "tomate", 15, 1);
+    Produto batata = new Produto("batata", 10, 1);
+    Produto tomate = new Produto("tomate", 15, 1);
     Estoque estoque = new Estoque();
 
     @DisplayName("Deve adicionar o produto no estoque")
@@ -52,7 +52,8 @@ class EstoqueTest {
         estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
-        assertEquals(batata, estoque.encontraProduto(1));
+        assertEquals(25, batata.getId());
+        assertEquals(batata, estoque.encontraProduto(25));
     }
 
     @DisplayName("Deve retornar nulo caso o produto não seja encontrado por id")
@@ -99,7 +100,8 @@ class EstoqueTest {
         estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
-        assertTrue(estoque.darBaixaEmEstoque(1, 1));
+        assertEquals(19, batata.getId());
+        assertTrue(estoque.darBaixaEmEstoque(19, 1));
         assertEquals(0, batata.getQuantidadeEmEstoque());
     }
 

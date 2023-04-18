@@ -1,92 +1,92 @@
-package org.example.exercicio20;
+    package org.example.exercicio20;
 
-import java.util.ArrayList;
+    import java.util.ArrayList;
 
-public class Estoque {
-    int id = 1;
-    ArrayList<Produto> listaDeProdutos;
+    public class Estoque {
+        int id = 1;
+        ArrayList<Produto> listaDeProdutos;
 
-    public void inicializaEstoque() {
-        listaDeProdutos = new ArrayList<>();
-    }
-
-    public Produto encontraProduto(String nome) {
-        for(Produto produto: listaDeProdutos) {
-            if(produto.getNome().equals((nome)))
-                return produto;
+        public void inicializaEstoque() {
+            listaDeProdutos = new ArrayList<>();
         }
-        return null;
-    }
 
-    public Produto encontraProduto(int id) {
-        for(Produto produto: listaDeProdutos)
-            if(produto.getId() == id)
-                return produto;
-        return null;
-    }
-
-    public boolean cadastraProduto(Produto produto) {
-        for(Produto x : listaDeProdutos)
-            if(x.getNome().equals(produto.getNome())) {
-                x.setQuantidadeEmEstoque(x.getQuantidadeEmEstoque() + produto.getQuantidadeEmEstoque());
-                return true;
+        public Produto encontraProduto(String nome) {
+            for(Produto produto: listaDeProdutos) {
+                if(produto.getNome().equals((nome)))
+                    return produto;
             }
-        listaDeProdutos.add(produto);
-        return true;
-    }
+            return null;
+        }
 
-    public void imprimeCatalogoDoEstoque() {
-        if(listaDeProdutos.size() == 0)
-            System.out.println("Lista vazia");
-        StringBuilder sb = new StringBuilder();
-        sb.append("Catálogo:\n");
-        for(Produto produto : listaDeProdutos)
-            sb.append(produto.getQuantidadeEmEstoque())
-                    .append("x ")
-                    .append(produto.getNome())
-                    .append(", por: ")
-                    .append(produto.getPreco())
-                    .append(" cada um")
-                    .append("\n");
-        System.out.println(sb.toString());
-    }
+        public Produto encontraProduto(int id) {
+            for(Produto produto: listaDeProdutos)
+                if(produto.getId() == id)
+                    return produto;
+            return null;
+        }
 
-    public boolean darBaixaEmEstoque(String nome, int quantidadeParaDarBaixa) {
-        Produto produto = encontraProduto(nome);
-            if(temEstoqueOuNao(produto, quantidadeParaDarBaixa)) {
-                produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
-                return true;
-            } else
-                return false;
-    }
+        public boolean cadastraProduto(Produto produto) {
+            for(Produto x : listaDeProdutos)
+                if(x.getNome().equals(produto.getNome())) {
+                    x.setQuantidadeEmEstoque(x.getQuantidadeEmEstoque() + produto.getQuantidadeEmEstoque());
+                    return true;
+                }
+            listaDeProdutos.add(produto);
+            return true;
+        }
 
-    public boolean darBaixaEmEstoque(int id, int quantidadeParaDarBaixa) {
-        Produto produto = encontraProduto(id);
-            if(temEstoqueOuNao(produto, quantidadeParaDarBaixa)) {
-                produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
-                return true;
-            } else
-                return false;
-    }
+        public void imprimeCatalogoDoEstoque() {
+            if(listaDeProdutos.size() == 0)
+                System.out.println("Lista vazia");
+            StringBuilder sb = new StringBuilder();
+            sb.append("Catálogo:\n");
+            for(Produto produto : listaDeProdutos)
+                sb.append(produto.getQuantidadeEmEstoque())
+                        .append("x ")
+                        .append(produto.getNome())
+                        .append(", por: ")
+                        .append(produto.getPreco())
+                        .append(" cada um")
+                        .append("\n");
+            System.out.println(sb);
+        }
 
-    public int getQuantidadeAtualEmEstoque(Produto produto) {
-        for(Produto x : listaDeProdutos)
-            if(x.getNome().equals(produto.getNome()))
-                return x.getQuantidadeEmEstoque();
-        return 0;
-    }
+        public boolean darBaixaEmEstoque(String nome, int quantidadeParaDarBaixa) {
+            Produto produto = encontraProduto(nome);
+                if(temEstoqueOuNao(produto, quantidadeParaDarBaixa)) {
+                    produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
+                    return true;
+                } else
+                    return false;
+        }
 
-    public int getPosicaoDoProdutoNaLista(Produto produto) {
-        for(int i = 0; i < listaDeProdutos.size(); i++)
-            if(listaDeProdutos.get(i).equals(produto))
-                return i;
-        return -1;
-    }
+        public boolean darBaixaEmEstoque(int id, int quantidadeParaDarBaixa) {
+            Produto produto = encontraProduto(id);
+                if(temEstoqueOuNao(produto, quantidadeParaDarBaixa)) {
+                    produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - quantidadeParaDarBaixa);
+                    return true;
+                } else
+                    return false;
+        }
 
-    public boolean temEstoqueOuNao(Produto produto, int quantidadeParaDarBaixa) {
-        for(Produto x : listaDeProdutos)
-            if(x.equals(produto) && x.getQuantidadeEmEstoque() >= quantidadeParaDarBaixa)
-                return true;
-        return false;
+        public int getQuantidadeAtualEmEstoque(Produto produto) {
+            for(Produto x : listaDeProdutos)
+                if(x.getNome().equals(produto.getNome()))
+                    return x.getQuantidadeEmEstoque();
+            return 0;
+        }
+
+        public int getPosicaoDoProdutoNaLista(Produto produto) {
+            for(int i = 0; i < listaDeProdutos.size(); i++)
+                if(listaDeProdutos.get(i).equals(produto))
+                    return i;
+            return -1;
+        }
+
+        public boolean temEstoqueOuNao(Produto produto, int quantidadeParaDarBaixa) {
+            for(Produto x : listaDeProdutos)
+                if(x.equals(produto) && x.getQuantidadeEmEstoque() >= quantidadeParaDarBaixa)
+                    return true;
+            return false;
+        }
     }
-}
