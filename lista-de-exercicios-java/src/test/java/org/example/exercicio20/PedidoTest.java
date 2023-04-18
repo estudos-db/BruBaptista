@@ -49,4 +49,23 @@ class PedidoTest {
         pedido.limparCarrinho();
         assertEquals(0, pedido.getListaDeItens().size());
     }
+
+    @DisplayName("Deve retornar o troco")
+    @Test
+    void deveRetornarTroco() {
+        pedido.adicionaItemNaLista(batata, 1);
+        pedido.calculaValorTotal();
+
+        assertEquals(5.0, pedido.calculaTroco(15));
+    }
+
+    @DisplayName("Deve retornar erro se o valor pago for menor que o total a pagar")
+    @Test
+    void deveRetornarErroValorPagoMenor() {
+        pedido.adicionaItemNaLista(batata, 1);
+        pedido.calculaValorTotal();
+
+        assertThrows(IllegalArgumentException.class, () ->
+                pedido.calculaTroco(5));
+    }
 }

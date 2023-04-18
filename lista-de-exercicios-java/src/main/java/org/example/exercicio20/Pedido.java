@@ -68,4 +68,11 @@
         public double getValorTotalDoPedido() {
             return valorTotalDoPedido;
         }
+
+        public double calculaTroco(double valorPago) {
+            if (valorPago < getValorTotalDoPedido()) {
+                throw new IllegalArgumentException("Valor pago insuficiente.");
+            }
+            return valorPago - getValorTotalDoPedido();
+        }
     }
