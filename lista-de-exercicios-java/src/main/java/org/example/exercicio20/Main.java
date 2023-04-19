@@ -3,11 +3,13 @@ package org.example.exercicio20;
 public class Main {
     public static void main(String[] args) {
         Estoque estoque = new Estoque();
-        estoque.inicializaEstoque();
-        Produto a = new Produto("a", 10, 1);
+        Produto a = new Produto("a", 10, 2);
         estoque.cadastraProduto(a);
-        Menu menu = new Menu(estoque);
+        //Menu menuEstoque = new Menu(estoque);
+        //menuEstoque.controlaMenuEstoque();
 
-        menu.controlaMenu();
+        Pedido pedido = new Pedido();
+        Menu menuPedido = new Menu(pedido);
+        menuPedido.controlaMenuPedido();
     }
 }

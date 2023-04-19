@@ -3,17 +3,119 @@ package org.example.exercicio20;
 import java.util.Scanner;
 
 public class Menu {
-    Scanner scanner = new Scanner(System.in);
-    Estoque estoque;
+    private Scanner scanner = new Scanner(System.in);
+    private Estoque estoque = new Estoque();
+    private Pedido pedido = new Pedido();
 
     public Menu(Estoque estoque) {
         this.estoque = estoque;
     }
 
-    public void controlaMenu() {
+    public Menu(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public void controlaMenuPedido() {
         int opcao = 0;
         do {
-            System.out.println("MENU");
+            System.out.println("MENU PEDIDO");
+            System.out.println("1. Mostrar carrinho");
+            System.out.println("2. Adicionar pedido");
+            System.out.println("3. Remover pedido");
+            System.out.println("4. Limpar carrinho");
+            System.out.println("5. Ver valor total");
+            System.out.println("6. Realizar pagamento");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            switchCaseMenuPedido(opcao);
+        } while (opcao != 0);
+    }
+
+    private void switchCaseMenuPedido(int opcao) {
+        switch (opcao) {
+            case 1 -> pedido.imprimePedido();
+            case 2 -> adicionaPedido();
+            case 3 -> removePedido();
+            case 4 -> limpaCarrinho();
+            case 5 -> pedido.imprimeValorTotal();
+            case 6 -> realizaPagamento();
+            case 0 -> System.out.println("Saindo...");
+            default -> System.out.println("Opção inválida!\n");
+        }
+    }
+
+    public void adicionaPedido() {
+        System.out.print("Digite o nome do produto: ");
+        String nomeProduto = scanner.next();
+        System.out.print("Digite a quantidade desejada: ");
+        int quantidade = scanner.nextInt();
+
+        Produto produto = estoque.encontraProduto(nomeProduto);
+        if (produto == null) {
+            System.out.println("Produto não encontrado.\n");
+            return;
+        }
+
+        boolean adicionou = pedido.adicionaItemNaLista(produto, quantidade);
+        if (adicionou)
+            System.out.println("Produto adicionado ao carrinho.\n");
+        else
+            System.out.println("Não foi possível adicionar o produto.\n");
+    }
+
+    public void removePedido() {
+        System.out.println("Remover Produto do Pedido");
+        System.out.print("Nome do Produto: ");
+        String nome = scanner.next();
+
+        Produto produto = estoque.encontraProduto(nome);
+        if (produto == null) {
+            System.out.println("Produto não encontrado!\n");
+            return;
+        }
+
+        boolean removido = pedido.removeItemDaLista(produto);
+        if (removido)
+            System.out.println("Produto removido do carrinho.\n");
+        else
+            System.out.println("Produto não encontrado no carrinho.\n");
+    }
+
+    public void limpaCarrinho() {
+        pedido.limparCarrinho();
+        System.out.println("Carrinho limpo!\n");
+    }
+
+    public void realizaPagamento() {
+        System.out.print("Digite o valor pago pelo cliente: ");
+        double valorPago = scanner.nextDouble();
+
+        try {
+            double troco = pedido.calculaTroco(valorPago);
+            if (troco < pedido.getValorTotalDoPedido())
+                System.out.println("Valor pago insuficiente.");
+            else if (troco > 0) {
+                System.out.printf("Troco: R$%.2f\n", troco);
+                System.out.println("O cliente receberá as seguintes notas: ");
+                CalculoTroco quantidadeDeNotas = pedido.calculaQuantidadeDeNotas(troco);
+                System.out.println(pedido.geraTrocoFormatado(quantidadeDeNotas));
+                if (troco < 2) {
+                    System.out.println("O cliente receberá as seguintes moedas: ");
+                    CalculoTroco quantidadeDeMoedas = pedido.calculaQuantidadeDeMoedas(quantidadeDeNotas);
+                    System.out.println(pedido.geraTrocoFormatado(quantidadeDeMoedas));
+                }
+            } else
+                System.out.println("Pagamento realizado com sucesso.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void controlaMenuEstoque() {
+        int opcao = 0;
+        do {
+            System.out.println("MENU ESTOQUE");
             System.out.println("1. Mostrar estoque");
             System.out.println("2. Buscar produto por nome");
             System.out.println("3. Buscar produto por id");
@@ -21,13 +123,13 @@ public class Menu {
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
-            switchCaseMenu(opcao);
+            switchCaseMenuEstoque(opcao);
         } while (opcao != 0);
     }
 
-    private void switchCaseMenu(int opcao) {
+    private void switchCaseMenuEstoque(int opcao) {
         switch (opcao) {
-            case 1 -> estoque.imprimeCatalogoDoEstoque();
+            case 1 -> mostraEstoque();
             case 2 -> buscaProdutoNome();
             case 3 -> buscaProdutoId();
             case 4 -> adicionaProduto();
@@ -53,10 +155,10 @@ public class Menu {
                     .append(produto.getNome())
                     .append(", por: ")
                     .append(produto.getPreco())
-                    .append(" cada um")
+                    .append(" cada")
                     .append("\n");
             System.out.println(sb);
-            menuProduto(produto);
+            menuEstoqueProduto(produto);
         }
     }
 
@@ -78,10 +180,10 @@ public class Menu {
                     .append(produto.getNome())
                     .append(", por: ")
                     .append(produto.getPreco())
-                    .append(" cada um")
+                    .append(" cada")
                     .append("\n");
             System.out.println(sb);
-            menuProduto(produto);
+            menuEstoqueProduto(produto);
         }
     }
 
@@ -97,7 +199,7 @@ public class Menu {
         System.out.println("Produto adicionado com sucesso!\n");
     }
 
-    private void menuProduto(Produto produto) {
+    private void menuEstoqueProduto(Produto produto) {
         int opcao = 0;
         do {
             System.out.println("OPÇÕES DO PRODUTO:");
@@ -107,11 +209,11 @@ public class Menu {
             System.out.println("0. Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
-            switchCaseProduto(opcao, produto);
+            switchCaseEstoqueProduto(opcao, produto);
         } while (opcao != 0);
     }
 
-    private void switchCaseProduto(int opcao, Produto produto) {
+    private void switchCaseEstoqueProduto(int opcao, Produto produto) {
         switch (opcao) {
             case 1 -> realizaBaixa(produto);
             case 2 -> verificaQuantidade(produto);

@@ -10,19 +10,9 @@ class EstoqueTest {
     Produto tomate = new Produto("tomate", 15, 1);
     Estoque estoque = new Estoque();
 
-    @DisplayName("Deve adicionar o produto no estoque")
-    @Test
-    void deveAdicionarProduto() {
-        estoque.inicializaEstoque();
-        estoque.cadastraProduto(batata);
-
-        assertTrue(estoque.listaDeProdutos.contains(batata));
-    }
-
     @DisplayName("Deve aumentar a quantidade do produto, caso o estoque já contenha esse produto")
     @Test
     void deveAumentarQuantidadeProduto() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
         estoque.cadastraProduto(batata);
 
@@ -32,7 +22,6 @@ class EstoqueTest {
     @DisplayName("Deve encontrar o produto no estoque pelo nome")
     @Test
     void deveEncontrarProdutoPorNome() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
         assertEquals(batata, estoque.encontraProduto("batata"));
@@ -41,33 +30,27 @@ class EstoqueTest {
     @DisplayName("Deve retornar nulo caso o produto não seja encontrado por nome")
     @Test
     void deveRetornarNuloSemEncontrarProdutoPorNome() {
-        estoque.inicializaEstoque();
-
         assertNull(estoque.encontraProduto("batata"));
     }
 
     @DisplayName("Deve encontrar o produto no estoque pelo id")
     @Test
     void deveEncontrarProdutoPorId() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
-        assertEquals(25, batata.getId());
-        assertEquals(batata, estoque.encontraProduto(25));
+        assertEquals(23, batata.getId());
+        assertEquals(batata, estoque.encontraProduto(23));
     }
 
     @DisplayName("Deve retornar nulo caso o produto não seja encontrado por id")
     @Test
     void deveRetornarNuloSemEncontrarProdutoPorId() {
-        estoque.inicializaEstoque();
-
         assertNull(estoque.encontraProduto(1));
     }
 
     @DisplayName("Deve verificar se o produto está ou não em estoque")
     @Test
     void deveVerificarPresencaNoEstoque() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
         assertTrue(estoque.temEstoqueOuNao(batata, 1));
@@ -78,7 +61,6 @@ class EstoqueTest {
     @DisplayName("Deve verificar a quantidade do produto para dar baixa")
     @Test
     void deveVerificarQuantidadeNoEstoque() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
         assertFalse(estoque.temEstoqueOuNao(batata, 2));
@@ -87,7 +69,6 @@ class EstoqueTest {
     @DisplayName("Deve diminuir a quantidade de um produto buscado por nome")
     @Test
     void deveDiminuirQuantidadeProdutoNome() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
         assertTrue(estoque.darBaixaEmEstoque("batata", 1));
@@ -97,18 +78,16 @@ class EstoqueTest {
     @DisplayName("Deve diminuir a quantidade de um produto buscado por id")
     @Test
     void deveDiminuirQuantidadeProdutoId() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
 
-        assertEquals(19, batata.getId());
-        assertTrue(estoque.darBaixaEmEstoque(19, 1));
+        assertEquals(17, batata.getId());
+        assertTrue(estoque.darBaixaEmEstoque(17, 1));
         assertEquals(0, batata.getQuantidadeEmEstoque());
     }
 
     @DisplayName("Deve retornar a quantidade do produto em estoque")
     @Test
     void deveRetornarQuantidade() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
         assertEquals(1, estoque.getQuantidadeAtualEmEstoque(batata));
 
@@ -121,7 +100,6 @@ class EstoqueTest {
     @DisplayName("Deve retornar a posição do produto na lista")
     @Test
     void deveRetornarPosicaoLista() {
-        estoque.inicializaEstoque();
         estoque.cadastraProduto(batata);
         estoque.cadastraProduto(tomate);
 
@@ -132,8 +110,6 @@ class EstoqueTest {
     @DisplayName("Deve retornar '-1' quando o produto não está na lista")
     @Test
     void deveRetornarMenosUm() {
-        estoque.inicializaEstoque();
-
         assertEquals(-1, estoque.getPosicaoDoProdutoNaLista(batata));
     }
 }
