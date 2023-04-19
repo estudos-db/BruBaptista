@@ -8,9 +8,8 @@
         private double valorTotalDoPedido = 0;
 
         public void calculaValorTotal() {
-            for(Item item : listaDeItens) {
+            for(Item item : listaDeItens)
                 valorTotalDoPedido += item.defineValorTotal();
-            }
         }
 
         public boolean adicionaItemNaLista(Produto produto, int quantidade) throws IllegalArgumentException {
@@ -70,9 +69,8 @@
         }
 
         public double calculaTroco(double valorPago) {
-            if(valorPago < getValorTotalDoPedido()) {
+            if(valorPago < getValorTotalDoPedido())
                 throw new IllegalArgumentException("Valor pago insuficiente.");
-            }
             return valorPago - getValorTotalDoPedido();
         }
 

@@ -11,10 +11,9 @@
         }
 
         public Produto encontraProduto(String nome) {
-            for(Produto produto: listaDeProdutos) {
+            for(Produto produto: listaDeProdutos)
                 if(produto.getNome().equals((nome)))
                     return produto;
-            }
             return null;
         }
 
@@ -36,20 +35,23 @@
         }
 
         public void imprimeCatalogoDoEstoque() {
-            if(listaDeProdutos.size() == 0)
-                System.out.println("Lista vazia");
             StringBuilder sb = new StringBuilder();
-            sb.append("Catálogo:\n");
-            for(Produto produto : listaDeProdutos)
-                sb.append(produto.getQuantidadeEmEstoque())
-                        .append("x ")
-                        .append(produto.getNome())
-                        .append(", por: ")
-                        .append(produto.getPreco())
-                        .append(" cada um")
-                        .append("\n");
+            if(listaDeProdutos.size() == 0)
+                sb.append("Lista vazia\n");
+            else {
+                sb.append("Catálogo:\n");
+                for(Produto produto : listaDeProdutos)
+                    sb.append(produto.getQuantidadeEmEstoque())
+                            .append("x ")
+                            .append(produto.getNome())
+                            .append(", por: ")
+                            .append(produto.getPreco())
+                            .append(" cada um")
+                            .append("\n");
+            }
             System.out.println(sb);
         }
+
 
         public boolean darBaixaEmEstoque(String nome, int quantidadeParaDarBaixa) {
             Produto produto = encontraProduto(nome);
