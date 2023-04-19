@@ -9,120 +9,22 @@ public class Menu {
 
     public Menu(Estoque estoque) {
         this.estoque = estoque;
-    }
-
-    public Menu(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
-    public void controlaMenuPedido() {
-        int opcao = 0;
-        do {
-            System.out.println("MENU PEDIDO");
-            System.out.println("1. Mostrar carrinho");
-            System.out.println("2. Adicionar pedido");
-            System.out.println("3. Remover pedido");
-            System.out.println("4. Limpar carrinho");
-            System.out.println("5. Ver valor total");
-            System.out.println("6. Realizar pagamento");
-            System.out.println("0. Sair");
-            System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
-            switchCaseMenuPedido(opcao);
-        } while (opcao != 0);
-    }
-
-    private void switchCaseMenuPedido(int opcao) {
-        switch (opcao) {
-            case 1 -> pedido.imprimePedido();
-            case 2 -> adicionaPedido();
-            case 3 -> removePedido();
-            case 4 -> limpaCarrinho();
-            case 5 -> pedido.imprimeValorTotal();
-            case 6 -> realizaPagamento();
-            case 0 -> System.out.println("Saindo...");
-            default -> System.out.println("Opção inválida!\n");
-        }
-    }
-
-    public void adicionaPedido() {
-        System.out.print("Digite o nome do produto: ");
-        String nomeProduto = scanner.next();
-        System.out.print("Digite a quantidade desejada: ");
-        int quantidade = scanner.nextInt();
-
-        Produto produto = estoque.encontraProduto(nomeProduto);
-        if (produto == null) {
-            System.out.println("Produto não encontrado.\n");
-            return;
-        }
-
-        boolean adicionou = pedido.adicionaItemNaLista(produto, quantidade);
-        if (adicionou)
-            System.out.println("Produto adicionado ao carrinho.\n");
-        else
-            System.out.println("Não foi possível adicionar o produto.\n");
-    }
-
-    public void removePedido() {
-        System.out.println("Remover Produto do Pedido");
-        System.out.print("Nome do Produto: ");
-        String nome = scanner.next();
-
-        Produto produto = estoque.encontraProduto(nome);
-        if (produto == null) {
-            System.out.println("Produto não encontrado!\n");
-            return;
-        }
-
-        boolean removido = pedido.removeItemDaLista(produto);
-        if (removido)
-            System.out.println("Produto removido do carrinho.\n");
-        else
-            System.out.println("Produto não encontrado no carrinho.\n");
-    }
-
-    public void limpaCarrinho() {
-        pedido.limparCarrinho();
-        System.out.println("Carrinho limpo!\n");
-    }
-
-    public void realizaPagamento() {
-        System.out.print("Digite o valor pago pelo cliente: ");
-        double valorPago = scanner.nextDouble();
-
-        try {
-            double troco = pedido.calculaTroco(valorPago);
-            if (troco < pedido.getValorTotalDoPedido())
-                System.out.println("Valor pago insuficiente.");
-            else if (troco > 0) {
-                System.out.printf("Troco: R$%.2f\n", troco);
-                System.out.println("O cliente receberá as seguintes notas: ");
-                CalculoTroco quantidadeDeNotas = pedido.calculaQuantidadeDeNotas(troco);
-                System.out.println(pedido.geraTrocoFormatado(quantidadeDeNotas));
-                if (troco < 2) {
-                    System.out.println("O cliente receberá as seguintes moedas: ");
-                    CalculoTroco quantidadeDeMoedas = pedido.calculaQuantidadeDeMoedas(quantidadeDeNotas);
-                    System.out.println(pedido.geraTrocoFormatado(quantidadeDeMoedas));
-                }
-            } else
-                System.out.println("Pagamento realizado com sucesso.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+        this.pedido = new Pedido();
     }
 
     public void controlaMenuEstoque() {
         int opcao = 0;
         do {
-            System.out.println("MENU ESTOQUE");
+            System.out.println("MENU");
             System.out.println("1. Mostrar estoque");
             System.out.println("2. Buscar produto por nome");
             System.out.println("3. Buscar produto por id");
             System.out.println("4. Adicionar produto");
+            System.out.println("5. Adicionar pedido");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
+            System.out.println();
             switchCaseMenuEstoque(opcao);
         } while (opcao != 0);
     }
@@ -133,6 +35,7 @@ public class Menu {
             case 2 -> buscaProdutoNome();
             case 3 -> buscaProdutoId();
             case 4 -> adicionaProduto();
+            case 5 -> menuPedido();
             case 0 -> System.out.println("Saindo...");
             default -> System.out.println("Opção inválida!\n");
         }
@@ -194,8 +97,13 @@ public class Menu {
         double precoProduto = scanner.nextDouble();
         System.out.print("Digite a quantidade do produto: ");
         int quantidadeProduto = scanner.nextInt();
-        Produto novoProduto = new Produto(nomeProduto, precoProduto, quantidadeProduto);
-        estoque.cadastraProduto(novoProduto);
+
+        try {
+            Produto novoProduto = new Produto(nomeProduto, precoProduto, quantidadeProduto);
+            estoque.cadastraProduto(novoProduto);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         System.out.println("Produto adicionado com sucesso!\n");
     }
 
@@ -260,5 +168,109 @@ public class Menu {
         }
         else
             System.out.println("Produto não encontrado no estoque!\n");
+    }
+
+    public void menuPedido() {
+        int opcao = 0;
+        do {
+            System.out.println("MENU DO PEDIDO");
+            System.out.println("1. Mostrar carrinho");
+            System.out.println("2. Adicionar pedido");
+            System.out.println("3. Remover pedido");
+            System.out.println("4. Limpar carrinho");
+            System.out.println("5. Ver valor total");
+            System.out.println("6. Realizar pagamento");
+            System.out.println("0. Voltar ao menu principal");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            switchCaseMenuPedido(opcao);
+        } while (opcao != 0);
+    }
+
+    private void switchCaseMenuPedido(int opcao) {
+        switch (opcao) {
+            case 1 -> mostraCarrinho();
+            case 2 -> adicionaPedido();
+            case 3 -> removePedido();
+            case 4 -> limpaCarrinho();
+            case 5 -> mostraValorTotal();
+            case 6 -> realizaPagamento();
+            case 0 -> System.out.println("Voltando ao menu principal...");
+            default -> System.out.println("Opção inválida!\n");
+        }
+    }
+
+    public void mostraCarrinho() {
+        pedido.calculaValorTotal();
+        pedido.imprimePedido();
+    }
+
+    public void mostraValorTotal() {
+        pedido.calculaValorTotal();
+        pedido.imprimeValorTotal();
+    }
+
+    public void adicionaPedido() {
+        System.out.print("Digite o nome do produto: ");
+        String nomeProduto = scanner.next();
+        System.out.print("Digite a quantidade desejada: ");
+        int quantidade = scanner.nextInt();
+
+        Produto produto = estoque.encontraProduto(nomeProduto);
+        if (produto == null) {
+            System.out.println("Produto não encontrado.\n");
+            return;
+        }
+
+        boolean adicionou = pedido.adicionaItemNaLista(produto, quantidade);
+        if (adicionou)
+            System.out.println("Produto adicionado ao carrinho.\n");
+        else
+            System.out.println("Não foi possível adicionar o produto.\n");
+    }
+
+    public void removePedido() {
+        System.out.println("Remover Produto do Pedido");
+        System.out.print("Nome do Produto: ");
+        String nome = scanner.next();
+
+        Produto produto = estoque.encontraProduto(nome);
+        if (produto == null) {
+            System.out.println("Produto não encontrado!\n");
+            return;
+        }
+
+        boolean removido = pedido.removeItemDaLista(produto);
+        if (removido)
+            System.out.println("Produto removido do carrinho.\n");
+        else
+            System.out.println("Produto não encontrado no carrinho.\n");
+    }
+
+    public void limpaCarrinho() {
+        pedido.limparCarrinho();
+        System.out.println("Carrinho limpo!\n");
+    }
+
+    public void realizaPagamento() {
+        System.out.print("Digite o valor pago: ");
+        double valorPago = scanner.nextDouble();
+        pedido.calculaValorTotal();
+
+        try {
+            if (valorPago < pedido.getValorTotalDoPedido())
+                System.out.println("Valor pago insuficiente.\n");
+            else {
+                double troco = valorPago - pedido.getValorTotalDoPedido();
+                System.out.printf("Pagamento realizado com sucesso.\nTroco: R$%.2f\n", troco);
+                System.out.println();
+                System.out.println("O troco são:");
+                CalculoTroco trocoNotas = pedido.calculaQuantidadeDeNotas(troco);
+                CalculoTroco trocoMoedas = pedido.calculaQuantidadeDeMoedas(trocoNotas);
+                System.out.println(pedido.geraTrocoFormatado(trocoMoedas));
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

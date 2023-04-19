@@ -5,11 +5,7 @@ public class Main {
         Estoque estoque = new Estoque();
         Produto a = new Produto("a", 10, 2);
         estoque.cadastraProduto(a);
-        //Menu menuEstoque = new Menu(estoque);
-        //menuEstoque.controlaMenuEstoque();
-
-        Pedido pedido = new Pedido();
-        Menu menuPedido = new Menu(pedido);
-        menuPedido.controlaMenuPedido();
+        Menu menu = new Menu(estoque);
+        menu.controlaMenuEstoque();
     }
 }
