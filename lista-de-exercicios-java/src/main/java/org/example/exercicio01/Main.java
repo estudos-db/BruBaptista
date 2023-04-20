@@ -1,4 +1,4 @@
-package org.example;
+package org.example.exercicio01;
 
 import org.example.exercicio01.Pessoa;
 
