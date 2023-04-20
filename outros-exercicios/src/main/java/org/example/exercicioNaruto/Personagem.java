@@ -69,4 +69,12 @@ public class Personagem {
     public String[] getJutsus() {
         return jutsus;
     }
+
+    public int getChakra() {
+        return chakra;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 }
