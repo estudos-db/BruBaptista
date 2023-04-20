@@ -258,16 +258,17 @@ public class Menu {
         pedido.calculaValorTotal();
 
         try {
-            if (valorPago < pedido.getValorTotalDoPedido())
+            if (valorPago < pedido.calculaValorTotal())
                 System.out.println("Valor pago insuficiente.\n");
             else {
-                double troco = valorPago - pedido.getValorTotalDoPedido();
+                double troco = valorPago - pedido.calculaValorTotal();
                 System.out.printf("Pagamento realizado com sucesso.\nTroco: R$%.2f\n", troco);
                 System.out.println();
-                System.out.println("O troco são:");
-                CalculoTroco trocoNotas = pedido.calculaQuantidadeDeNotas(troco);
-                CalculoTroco trocoMoedas = pedido.calculaQuantidadeDeMoedas(trocoNotas);
-                System.out.println(pedido.geraTrocoFormatado(trocoMoedas));
+                if(troco > 0) {
+                    System.out.println("O troco são:");
+                    System.out.print(pedido.calculaMenorQuantidadeDeNotas(troco));
+                    System.out.println(pedido.calculaMenorQuantidadeDeMoedas(pedido.subtraiTroco(troco)));
+                }
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

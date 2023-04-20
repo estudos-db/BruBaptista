@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class Pedido {
     private ArrayList<Item> listaDeItens = new ArrayList<>();
-    private double valorTotalDoPedido = 0;
 
-    public void calculaValorTotal() {
+    public double calculaValorTotal() {
+        double valorTotalDoPedido = 0;
         for(Item item : listaDeItens) {
             valorTotalDoPedido += item.defineValorTotal();
         }
+        return valorTotalDoPedido;
     }
 
     public boolean adicionaItemNaLista(Produto produto, int quantidade) throws IllegalArgumentException {
@@ -43,21 +44,13 @@ public class Pedido {
             sb.append(item.getQuantidade())
                     .append("x ")
                     .append(item.getProduto().getNome())
-                    .append(", por: ")
-                    .append(item.defineValorTotal())
-                    .append("\n");
-        sb.append("Valor total: ")
-                .append(getValorTotalDoPedido())
-                .append("\n");
+                    .append(String.format(", por: R$%.2f\n", item.defineValorTotal()));
+        sb.append(String.format("Valor total: R$%.2f\n", calculaValorTotal()));
         System.out.println(sb);
     }
 
     public void imprimeValorTotal() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("O valor total é: ")
-                    .append(getValorTotalDoPedido())
-                    .append("\n");
-        System.out.println(sb);
+        System.out.printf("Valor total: R$%.2f\n%n", calculaValorTotal());
     }
 
     public void limparCarrinho() {
@@ -68,76 +61,82 @@ public class Pedido {
         return listaDeItens;
     }
 
-    public double getValorTotalDoPedido() {
-        return valorTotalDoPedido;
-    }
-
     public double calculaTroco(double valorPago) {
-        if(valorPago < getValorTotalDoPedido())
+        if(valorPago < calculaValorTotal())
             throw new IllegalArgumentException("Valor pago insuficiente.");
-        return valorPago - getValorTotalDoPedido();
+        return valorPago - calculaValorTotal();
     }
 
-    public CalculoTroco calculaQuantidadeDeNotas(double valorTroco) {
+    public double subtraiTroco(double valorTroco) {
         int[] notas = {100, 50, 20, 10, 5, 2};
-        int[] quantidadeDeNotas = new int[notas.length];
-        int resto = (int) (valorTroco * 100);
+        int[] quantidadeDeNotas = calculaQuantidadeDeNotas(valorTroco, notas);
+
+        double valorTotal = 0.0;
         for(int i = 0; i < notas.length; i++)
-            if(resto >= notas[i] * 100) {
-                quantidadeDeNotas[i] = resto / (notas[i] * 100);
-                resto %= notas[i] * 100;
-            }
-        return new CalculoTroco(quantidadeDeNotas, resto);
+            if(quantidadeDeNotas[i] > 0)
+                valorTotal += quantidadeDeNotas[i] * notas[i];
+        return valorTroco - valorTotal;
     }
 
-    public CalculoTroco calculaQuantidadeDeMoedas(CalculoTroco calculoTroco) {
-        double[] moedas = {1, 0.5, 0.25, 0.1, 0.05};
-        int[] quantidadeDeMoedas = new int[moedas.length];
-        int resto = calculoTroco.getResto();
 
-        if(resto == 0)
-            return new CalculoTroco(new int[quantidadeDeMoedas.length], new int[quantidadeDeMoedas.length]);
+    public String calculaMenorQuantidadeDeNotas(double valorTroco) {
+        int[] notas = {100, 50, 20, 10, 5, 2};
+        int[] quantidadeDeNotas = calculaQuantidadeDeNotas(valorTroco, notas);
 
-        for(int i = 0; i < moedas.length; i++)
-            if(resto >= moedas[i] * 100) {
-                quantidadeDeMoedas[i] = (int) (resto / (moedas[i] * 100));
-                resto %= (moedas[i] * 100);
-            }
-        return new CalculoTroco(calculoTroco.getQuantidadeDeNotas(), quantidadeDeMoedas);
-    }
-
-    public String geraTrocoFormatado(CalculoTroco calculoTroco) {
         StringBuilder sb = new StringBuilder();
-        int[] notas = {100, 50, 20, 10, 5, 2};
-        double[] moedas = {1, 0.5, 0.25, 0.1, 0.05};
-        boolean haMoedas = false;
-
         for(int i = 0; i < notas.length; i++)
-            if (calculoTroco.getQuantidadeDeNotas()[i] > 0)
-                sb.append(calculoTroco.getQuantidadeDeNotas()[i])
+            if(quantidadeDeNotas[i] > 0)
+                sb.append(quantidadeDeNotas[i])
                         .append(" nota")
-                        .append(calculoTroco.getQuantidadeDeNotas()[i] > 1 ? "s" : "")
+                        .append(quantidadeDeNotas[i] > 1 ? "s" : "")
                         .append(" de ")
                         .append(notas[i])
                         .append(" reais\n");
+        return sb.toString();
+    }
 
-        for(int i = 0; i < moedas.length; i++)
-            if(calculoTroco.getQuantidadeDeMoedas()[i] > 0) {
-                haMoedas = true;
-                sb.append(calculoTroco.getQuantidadeDeMoedas()[i])
+    private int[] calculaQuantidadeDeNotas(double valorTroco, int[] notas) {
+        int[] quantidadeDeNotas = new int[notas.length];
+        for(int i = 0; i < notas.length; i++)
+            if(valorTroco >= notas[i]) {
+                quantidadeDeNotas[i] = (int) (valorTroco / notas[i]);
+                valorTroco -= quantidadeDeNotas[i] * notas[i];
+            }
+        return quantidadeDeNotas;
+    }
+
+    public String calculaMenorQuantidadeDeMoedas(double valorTroco) {
+        if (valorTroco >= 2)
+            return "Valor do troco deve ser menor que 2";
+
+        double[] moedas = {1, 0.5, 0.25, 0.1, 0.05};
+        int[] quantidadeDeMoedas = calculaQuantidadeDeMoedas(valorTroco, moedas);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < moedas.length; i++)
+            if (quantidadeDeMoedas[i] > 0) {
+                sb.append(quantidadeDeMoedas[i])
                         .append(" moeda")
-                        .append(calculoTroco.getQuantidadeDeMoedas()[i] > 1 ? "s" : "")
+                        .append(quantidadeDeMoedas[i] > 1 ? "s" : "")
                         .append(" de ");
-                if(moedas[i] == 1)
-                    sb.append("1 real\n");
+                if (moedas[i] == 1)
+                    sb.append("1 real");
                 else
                     sb.append((int) (moedas[i] * 100))
                             .append(" centavo")
-                            .append(moedas[i] * 100 > 1 ? "s" : "")
-                            .append("\n");
+                            .append(moedas[i] * 100 > 1 ? "s" : "");
+                sb.append("\n");
             }
-        if(!haMoedas)
-            sb.append("Não há troco em moeda.\n");
         return sb.toString();
+    }
+
+    private int[] calculaQuantidadeDeMoedas(double valorTroco, double[] moedas) {
+        int[] quantidadeDeMoedas = new int[moedas.length];
+        for(int i = 0; i < moedas.length; i++)
+            if(valorTroco >= moedas[i]) {
+                quantidadeDeMoedas[i] = (int) (valorTroco / moedas[i]);
+                valorTroco -= quantidadeDeMoedas[i] * moedas[i];
+            }
+        return quantidadeDeMoedas;
     }
 }
