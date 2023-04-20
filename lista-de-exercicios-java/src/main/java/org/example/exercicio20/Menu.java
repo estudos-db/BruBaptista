@@ -271,11 +271,12 @@ public class Menu {
                 if(troco > 0) {
                     System.out.println("O troco são:");
                     System.out.print(pedido.calculaMenorQuantidadeDeNotas(troco));
-                    System.out.println(pedido.calculaMenorQuantidadeDeMoedas(pedido.subtraiTroco(troco)));
+                    double trocoMoedas = Math.round((pedido.subtraiTroco(troco)) * 100.0) / 100.0;
+                    System.out.println(pedido.calculaMenorQuantidadeDeMoedas(trocoMoedas));
                 }
-                for(Item item : pedido.getListaDeItens()) {
+                for(Item item : pedido.getListaDeItens())
                     estoque.darBaixaEmEstoque(item.getProduto().getNome(), item.getQuantidade());
-                }
+                pedido.limparCarrinho();
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
