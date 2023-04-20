@@ -261,7 +261,7 @@ public class Menu {
             if (valorPago < pedido.calculaValorTotal())
                 System.out.println("Valor pago insuficiente.\n");
             else {
-                double troco = valorPago - pedido.calculaValorTotal();
+                double troco = Math.round((valorPago - pedido.calculaValorTotal()) * 100.0) / 100.0;
                 System.out.printf("Pagamento realizado com sucesso.\nTroco: R$%.2f\n", troco);
                 System.out.println();
                 if(troco > 0) {
