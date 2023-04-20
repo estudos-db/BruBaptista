@@ -141,7 +141,7 @@ public class Menu {
     }
 
     public void verificaQuantidade(Produto produto) {
-        int quantidade = estoque.getQuantidadeAtualEmEstoque(produto);
+        int quantidade = estoque.getQuantidadeAtualEmEstoque("produto");
         if(quantidade == -1)
             System.out.println("Produto não encontrado!\n");
         else {
@@ -214,16 +214,20 @@ public class Menu {
         System.out.print("Digite o nome do produto: ");
         String nomeProduto = scanner.next();
         System.out.print("Digite a quantidade desejada: ");
-        int quantidade = scanner.nextInt();
+        int quantidadeDesejada = scanner.nextInt();
 
         Produto produto = estoque.encontraProduto(nomeProduto);
-        if (produto == null) {
+        if(produto == null) {
             System.out.println("Produto não encontrado.\n");
             return;
         }
+        if(quantidadeDesejada > estoque.getQuantidadeAtualEmEstoque(nomeProduto)) {
+            System.out.println("Não há produtos suficientes em estoque.\n");
+            return;
+        }
 
-        boolean adicionou = pedido.adicionaItemNaLista(produto, quantidade);
-        if (adicionou)
+        boolean adicionou = pedido.adicionaItemNaLista(produto, quantidadeDesejada);
+        if(adicionou)
             System.out.println("Produto adicionado ao carrinho.\n");
         else
             System.out.println("Não foi possível adicionar o produto.\n");
@@ -235,13 +239,13 @@ public class Menu {
         String nome = scanner.next();
 
         Produto produto = estoque.encontraProduto(nome);
-        if (produto == null) {
+        if(produto == null) {
             System.out.println("Produto não encontrado!\n");
             return;
         }
 
         boolean removido = pedido.removeItemDaLista(produto);
-        if (removido)
+        if(removido)
             System.out.println("Produto removido do carrinho.\n");
         else
             System.out.println("Produto não encontrado no carrinho.\n");
@@ -258,7 +262,7 @@ public class Menu {
         pedido.calculaValorTotal();
 
         try {
-            if (valorPago < pedido.calculaValorTotal())
+            if(valorPago < pedido.calculaValorTotal())
                 System.out.println("Valor pago insuficiente.\n");
             else {
                 double troco = Math.round((valorPago - pedido.calculaValorTotal()) * 100.0) / 100.0;
@@ -268,6 +272,9 @@ public class Menu {
                     System.out.println("O troco são:");
                     System.out.print(pedido.calculaMenorQuantidadeDeNotas(troco));
                     System.out.println(pedido.calculaMenorQuantidadeDeMoedas(pedido.subtraiTroco(troco)));
+                }
+                for(Item item : pedido.getListaDeItens()) {
+                    estoque.darBaixaEmEstoque(item.getProduto().getNome(), item.getQuantidade());
                 }
             }
         } catch (IllegalArgumentException e) {

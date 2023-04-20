@@ -66,9 +66,9 @@ public class Estoque {
                 return false;
     }
 
-    public int getQuantidadeAtualEmEstoque(Produto produto) {
+    public int getQuantidadeAtualEmEstoque(String nomeProduto) {
         for(Produto x : listaDeProdutos)
-            if(x.getNome().equals(produto.getNome()))
+            if(x.getNome().equals(nomeProduto))
                 return x.getQuantidadeEmEstoque();
         return 0;
     }

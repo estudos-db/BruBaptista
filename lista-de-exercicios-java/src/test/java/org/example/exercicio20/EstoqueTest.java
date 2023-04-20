@@ -89,12 +89,12 @@ class EstoqueTest {
     @Test
     void deveRetornarQuantidade() {
         estoque.cadastraProduto(batata);
-        assertEquals(1, estoque.getQuantidadeAtualEmEstoque(batata));
+        assertEquals(1, estoque.getQuantidadeAtualEmEstoque("batata"));
 
         estoque.darBaixaEmEstoque("batata", 1);
-        assertEquals(0, estoque.getQuantidadeAtualEmEstoque(batata));
+        assertEquals(0, estoque.getQuantidadeAtualEmEstoque("batata"));
 
-        assertEquals(0, estoque.getQuantidadeAtualEmEstoque(tomate));
+        assertEquals(0, estoque.getQuantidadeAtualEmEstoque("tomate"));
     }
 
     @DisplayName("Deve retornar a posição do produto na lista")
