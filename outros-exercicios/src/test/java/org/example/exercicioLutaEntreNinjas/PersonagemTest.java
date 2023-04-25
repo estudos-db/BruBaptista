@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonagemTest {
 
     Personagem hina = new Personagem("Hina");
-    Jutsu rasengan = new Jutsu(10, 10);
+    Jutsu rasengan = new Jutsu("rasengan", 10, 10);
     @DisplayName("Deve adicionar um novo jutsu")
     @Test
     void deveAdicionarJutsu() {

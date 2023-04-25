@@ -30,4 +30,24 @@ public class Personagem {
     public Map<String, Jutsu> getJutsus() {
         return jutsus;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getChakra() {
+        return chakra;
+    }
+
+    public void setChakra(int chakra) {
+        this.chakra = chakra;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
 }

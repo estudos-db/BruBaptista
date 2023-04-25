@@ -11,10 +11,10 @@ class JutsuTest {
     @Test
     void deveRetornarErroJutsuComDanoMenorQueZeroOuMaiorQueDez() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Jutsu jutsuZero = new Jutsu(-1, 5);
+            Jutsu jutsuZero = new Jutsu("zero", -1, 5);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            Jutsu jutsuDez = new Jutsu(11, 5);
+            Jutsu jutsuDez = new Jutsu("dez", 11, 5);
         });
     }
 
@@ -22,10 +22,10 @@ class JutsuTest {
     @Test
     void deveRetornarErroJutsuComConsumoDeChakraMenorQueZeroOuMaiorQueDez() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Jutsu jutsuZero = new Jutsu(5, -1);
+            Jutsu jutsuZero = new Jutsu("zero", 5, -1);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            Jutsu jutsuDez = new Jutsu(5, 11);
+            Jutsu jutsuDez = new Jutsu("dez", 5, 11);
         });
     }
 }
