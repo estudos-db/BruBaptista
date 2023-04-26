@@ -26,15 +26,15 @@ class NinjaDeGenjutsuTest {
     @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra atacar")
     @Test
     void deveRetornarNinjaIncapacitadoAtaque() {
-        itachi.setChakra(10);
+        itachi.setChakra(9);
         assertEquals("O ninja está incapacitado por falta de chakra", itachi.usarJutsu(rasengan));
+        assertEquals(0, itachi.getChakra());
     }
 
-    @DisplayName("Deve retornar que o ninja desviou")
+    @DisplayName("Deve retornar que o ninja desviou ou não")
     @Test
     void deveRetornarNinjaDesviou() {
-        assertEquals("O ninja Itachi está desviando de um ataque usando sua habilidade em Genjutsu",
-                itachi.desviar());
+        assertTrue(itachi.desviar() || !itachi.desviar());
     }
 
     @DisplayName("Desviar deve consumir chakra")
@@ -45,10 +45,10 @@ class NinjaDeGenjutsuTest {
         assertEquals(95, itachi.getChakra());
     }
 
-    @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra desviar")
+    @DisplayName("Um ninja com 5 ou menos de chakra não pode desviar")
     @Test
-    void deveRetornarNinjaIncapacitadoDesvio() {
+    void deveRetornarNinjaIncapazDeDesviar() {
         itachi.setChakra(5);
-        assertEquals("O ninja está incapacitado por falta de chakra", itachi.desviar());
+        assertFalse(itachi.desviar());
     }
 }

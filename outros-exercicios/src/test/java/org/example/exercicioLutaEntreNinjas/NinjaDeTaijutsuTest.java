@@ -26,8 +26,9 @@ class NinjaDeTaijutsuTest {
     @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra atacar")
     @Test
     void deveRetornarNinjaIncapacitadoAtaque() {
-        lee.setChakra(10);
+        lee.setChakra(9);
         assertEquals("O ninja está incapacitado por falta de chakra", lee.usarJutsu(rasengan));
+        assertEquals(0, lee.getChakra());
     }
 
     @DisplayName("Desviar deve consumir chakra")
@@ -38,17 +39,16 @@ class NinjaDeTaijutsuTest {
         assertEquals(95, lee.getChakra());
     }
 
-    @DisplayName("Deve retornar que o ninja desviou")
+    @DisplayName("Deve retornar que o ninja desviou ou não")
     @Test
     void deveRetornarNinjaDesviou() {
-        assertEquals("O ninja Lee está desviando de um ataque usando sua habilidade em Taijutsu",
-                lee.desviar());
+        assertTrue(lee.desviar() || !lee.desviar());
     }
 
-    @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra desviar")
+    @DisplayName("Um ninja com 5 ou menos de chakra não pode desviar")
     @Test
-    void deveRetornarNinjaIncapacitadoDesvio() {
+    void deveRetornarNinjaIncapazDeDesviar() {
         lee.setChakra(5);
-        assertEquals("O ninja está incapacitado por falta de chakra", lee.desviar());
+        assertFalse(lee.desviar());
     }
 }

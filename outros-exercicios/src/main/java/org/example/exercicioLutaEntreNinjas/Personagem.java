@@ -27,6 +27,10 @@ public class Personagem {
             return "Não foi possível aprender esse jutsu";
     }
 
+    public boolean temJutsu(String nomeJutsu) {
+        return jutsus.containsKey(nomeJutsu);
+    }
+
     public Map<String, Jutsu> getJutsus() {
         return jutsus;
     }

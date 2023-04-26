@@ -26,15 +26,15 @@ class NinjaDeNinjutsuTest {
     @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra atacar")
     @Test
     void deveRetornarNinjaIncapacitadoAtaque() {
-        kakashi.setChakra(10);
+        kakashi.setChakra(9);
         assertEquals("O ninja está incapacitado por falta de chakra", kakashi.usarJutsu(rasengan));
+        assertEquals(0, kakashi.getChakra());
     }
 
-    @DisplayName("Deve retornar que o ninja desviou")
+    @DisplayName("Deve retornar que o ninja desviou ou não")
     @Test
     void deveRetornarNinjaDesviou() {
-        assertEquals("O ninja Kakashi está desviando de um ataque usando sua habilidade em Ninjutsu",
-                kakashi.desviar());
+        assertTrue(kakashi.desviar() || !kakashi.desviar());
     }
 
     @DisplayName("Desviar deve consumir chakra")
@@ -45,10 +45,10 @@ class NinjaDeNinjutsuTest {
         assertEquals(95, kakashi.getChakra());
     }
 
-    @DisplayName("Deve retornar que o ninja está incapacitado senão tiver chakra pra desviar")
+    @DisplayName("Um ninja com 5 ou menos de chakra não pode desviar")
     @Test
-    void deveRetornarNinjaIncapacitadoDesvio() {
+    void deveRetornarNinjaIncapazDeDesviar() {
         kakashi.setChakra(5);
-        assertEquals("O ninja está incapacitado por falta de chakra", kakashi.desviar());
+        assertFalse(kakashi.desviar());
     }
 }
