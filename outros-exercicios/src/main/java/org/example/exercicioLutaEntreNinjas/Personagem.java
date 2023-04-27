@@ -43,7 +43,7 @@ public class Personagem {
         return chakra;
     }
 
-    public void setChakra(int chakra) {
+    private void setChakra(int chakra) {
         this.chakra = chakra;
     }
 
@@ -51,7 +51,58 @@ public class Personagem {
         return vida;
     }
 
-    public void setVida(int vida) {
+    private void setVida(int vida) {
         this.vida = vida;
+    }
+
+    public void consumirVida(int consumo) {
+        int vidaAtual = this.getVida() - consumo;
+        this.setVida(vidaAtual);
+    }
+
+    public void consumirChakra(int consumo) {
+        int chackraAtual = this.getChakra() - consumo;
+        this.setChakra(chackraAtual);
+    }
+
+    public String usarJutsu(Jutsu jutsu) {
+        if(this.getChakra() < jutsu.getConsumoDeChakra()) {
+            this.setChakra(0);
+            return "O ninja está incapacitado por falta de chakra";
+        }
+
+        consumirChakra(jutsu.getConsumoDeChakra());
+        StringBuilder sb = new StringBuilder();
+        sb.append("O ninja ")
+                .append(this.getNome())
+                .append(" está atacando usando o ")
+                .append(jutsu.getNome());
+        return sb.toString();
+    }
+
+    public boolean desviar() {
+        if(this.getChakra() <= 5) {
+            System.out.println("O ninja não pode desviar por falta de chakra");
+            return false;
+        }
+        else {
+            consumirChakra(5);
+            double conseguirDesviar = Math.floor(Math.random() * 2);
+            if (conseguirDesviar == 1) {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append("O ninja ")
+                        .append(this.getNome())
+                        .append(" conseguiu desviar");
+                System.out.println(sb1);
+                return true;
+            } else {
+                StringBuilder sb2 = new StringBuilder();
+                sb2.append("O ninja ")
+                        .append(this.getNome())
+                        .append(" não conseguiu desviar");
+                System.out.println(sb2);
+                return false;
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ public class Luta {
                     .append(" não conseguiu desviar");
         }
 
-        defensor.setVida(defensor.getVida() - jutsu.getDano());
+        defensor.consumirVida(jutsu.getDano());
         sb.append("\nO ninja ")
                 .append(defensor.getNome())
                 .append(" levou ")

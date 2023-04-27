@@ -70,7 +70,6 @@ class LutaTest {
     @Test
     void deveCausarDanoQuandoDefensorNaoDesvia() {
         ninja1.aprenderJutsu("Bola de fogo", bolaDeFogo);
-        ninja2.aprenderJutsu("Bola de fogo", bolaDeFogo);
         Luta luta = new Luta(ninja1, ninja2);
 
         String resultado = luta.batalha(ninja1, bolaDeFogo, ninja2, false);
@@ -83,10 +82,9 @@ class LutaTest {
     @Test
     void deveRetornarMensagemDeFimDaLutaQuandoDefensorMorre() {
         ninja1.aprenderJutsu("Bola de fogo", bolaDeFogo);
-        ninja2.aprenderJutsu("Bola de fogo", bolaDeFogo);
         Luta luta = new Luta(ninja1, ninja2);
 
-        ninja2.setVida(10);
+        ninja2.consumirVida(90);
         String resultado = luta.batalha(ninja1, bolaDeFogo, ninja2, false);
         String mensagemEsperada = "O ninja ninja 1 usou Bola de fogo\n" +
                 "O ninja ninja 2 levou 10 de dano\n" +
@@ -98,10 +96,9 @@ class LutaTest {
     @Test
     void deveRetornarMensagemDeFimDaLutaQuandoAtacanteMorre() {
         ninja1.aprenderJutsu("Bola de fogo", bolaDeFogo);
-        ninja2.aprenderJutsu("Bola de fogo", bolaDeFogo);
         Luta luta = new Luta(ninja1, ninja2);
 
-        ninja1.setChakra(5);
+        ninja1.consumirChakra(95);
         String resultado = luta.batalha(ninja1, bolaDeFogo, ninja2, false);
         String mensagemEsperada = "O ninja ninja 1 usou Bola de fogo\n" +
                 "O ninja ninja 2 levou 10 de dano\n" +
@@ -113,11 +110,10 @@ class LutaTest {
     @Test
     void deveRetornarMensagemDeFimDaLutaQuandoAtacanteEDefensorMorrem() {
         ninja1.aprenderJutsu("Bola de fogo", bolaDeFogo);
-        ninja2.aprenderJutsu("Bola de fogo", bolaDeFogo);
         Luta luta = new Luta(ninja1, ninja2);
 
-        ninja1.setChakra(5);
-        ninja2.setVida(10);
+        ninja1.consumirChakra(95);
+        ninja2.consumirVida(90);
         String resultado = luta.batalha(ninja1, bolaDeFogo, ninja2, false);
         String mensagemEsperada = "O ninja ninja 1 usou Bola de fogo\n" +
                 "O ninja ninja 2 levou 10 de dano\n" +
