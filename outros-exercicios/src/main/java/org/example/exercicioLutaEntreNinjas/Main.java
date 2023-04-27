@@ -11,5 +11,8 @@ public class Main {
         Luta luta = new Luta(ninja1, ninja2);
 
         System.out.println(luta.ordenarNinjas());
+
+        Jutsu amaterasu = new Jutsu("Amaterasu", 10, 5);
+        System.out.println(luta.batalha(ninja1, amaterasu, ninja2, false));
     }
 }

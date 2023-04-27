@@ -21,9 +21,11 @@ public class Luta {
     }
 
     public String batalha(Ninja atacante, Jutsu jutsu, Ninja defensor, boolean tentouDesviar) {
-        String erro = autenticarNinjaTemJutsu(atacante, jutsu);
-        if(erro != null)
-            return erro;
+        try {
+            autenticarNinjaTemJutsu(atacante, jutsu);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
         atacante.usarJutsu(jutsu);
         StringBuilder sb = new StringBuilder();
@@ -69,16 +71,15 @@ public class Luta {
                     .append(" não tem mais vida e não pode mais lutar");
     }
 
-    private String autenticarNinjaTemJutsu(Ninja atacante, Jutsu jutsu) {
+    private void autenticarNinjaTemJutsu(Ninja atacante, Jutsu jutsu) {
         if(!atacante.temJutsu(jutsu.getNome())) {
             StringBuilder sb = new StringBuilder();
             sb.append("O ninja ")
                     .append(atacante.getNome())
                     .append(" não possui o jutsu ")
                     .append(jutsu.getNome());
-            return sb.toString();
+            throw new IllegalArgumentException(sb.toString());
         }
-        return null;
     }
 
     public Ninja getNinjaInicial() {
