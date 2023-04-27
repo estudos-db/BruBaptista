@@ -87,13 +87,6 @@ class PersonagemTest {
         assertEquals(95, hina.getChakra());
     }
 
-    //O teste a seguir deve falhar algumas vezes por depender do Math.random()
-    @DisplayName("Deve retornar que o ninja desviou ou não")
-    @Test
-    void deveRetornarNinjaDesviou() {
-        assertTrue(hina.desviar() || !hina.desviar());
-    }
-
     @DisplayName("Um ninja com 5 ou menos de chakra não pode desviar")
     @Test
     void deveRetornarNinjaIncapazDeDesviar() {

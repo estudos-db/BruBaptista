@@ -85,24 +85,9 @@ public class Personagem {
             System.out.println("O ninja não pode desviar por falta de chakra");
             return false;
         }
-        else {
-            consumirChakra(5);
-            double conseguirDesviar = Math.floor(Math.random() * 2);
-            if (conseguirDesviar == 1) {
-                StringBuilder sb1 = new StringBuilder();
-                sb1.append("O ninja ")
-                        .append(this.getNome())
-                        .append(" conseguiu desviar");
-                System.out.println(sb1);
-                return true;
-            } else {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append("O ninja ")
-                        .append(this.getNome())
-                        .append(" não conseguiu desviar");
-                System.out.println(sb2);
-                return false;
-            }
-        }
+
+        consumirChakra(5);
+        double conseguirDesviar = Math.floor(Math.random() * 2);
+        return conseguirDesviar == 1;
     }
 }
