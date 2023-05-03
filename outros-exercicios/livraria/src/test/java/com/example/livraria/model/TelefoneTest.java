@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class TelefoneTest {
 
     Telefone telefone;
-    
+
     @DisplayName("Deve retornar telefone com ddd e número")
     @Test
     void deveRetornarTelefone() {
