@@ -3,13 +3,11 @@ package com.example.livraria.model;
 import com.example.livraria.model.enums.Sexo;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"cpf"})})
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

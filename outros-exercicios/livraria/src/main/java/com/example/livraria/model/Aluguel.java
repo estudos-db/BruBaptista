@@ -16,4 +16,9 @@ public class Aluguel {
     private long id;
     private LocalDate dataRetirada;
     private LocalDate dataDevolucao;
+
+    public Aluguel() {
+        this.dataRetirada = LocalDate.now();
+        this.dataDevolucao = this.dataRetirada.plusDays(2);
+    }
 }
