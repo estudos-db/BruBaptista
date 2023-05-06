@@ -1,8 +1,9 @@
 package com.example.livraria.controller;
 
+import com.example.livraria.dto.AutorDto;
+import com.example.livraria.dto.LivroDto;
 import com.example.livraria.model.Livro;
-import com.example.livraria.repository.LivroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.livraria.service.LivroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +13,39 @@ import java.util.List;
 @RequestMapping("/livro")
 public class LivroController {
 
-    @Autowired
-    private LivroRepository livroRepository;
+    private final LivroService livroService;
+
+    public LivroController(LivroService livroService) {
+        this.livroService = livroService;
+    }
 
     @GetMapping
-    public List<Livro> listar() {
-        return livroRepository.findAll();
+    @ResponseStatus(HttpStatus.OK)
+    public List<LivroDto> listarTodos() {
+        return livroService.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LivroDto buscarPorId(@PathVariable long id) {
+        return livroService.buscarPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Livro adicionar(@RequestBody Livro livro) {
-        return livroRepository.save(livro);
+    public LivroDto adicionar(@RequestBody LivroDto livroDto) {
+        return livroService.adicionar(livroDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarPorId(@PathVariable long id) {
+        livroService.deletarPorId(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LivroDto atualizar(@PathVariable Long id, @RequestBody LivroDto livroDto) {
+        return livroService.atualizar(id, livroDto);
     }
 }

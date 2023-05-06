@@ -1,13 +1,19 @@
 package com.example.livraria.service;
 
+import com.example.livraria.dto.AutorDto;
 import com.example.livraria.dto.LivroDto;
+import com.example.livraria.model.Autor;
 import com.example.livraria.model.Livro;
 import com.example.livraria.repository.LivroRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivroService {
@@ -36,7 +42,7 @@ public class LivroService {
         livroDto.setDataDePublicacao(dataDePublicacao);
     }
 
-    public LivroDto adicionar(LivroDto livroDto) {
+    public LivroDto criar(LivroDto livroDto) {
         setNome(livroDto.getNome(), livroDto);
         setisbn(livroDto.getIsbn(), livroDto);
         setDataDePublicacao(livroDto.getDataDePublicacao(), livroDto);
@@ -47,5 +53,79 @@ public class LivroService {
         BeanUtils.copyProperties(livro, livroDto);
 
         return livroDto;
+    }
+
+    public List<LivroDto> listarTodos() {
+        List<Livro> livroLista = livroRepository.findAll();
+        List<LivroDto> livroDtoLista = new ArrayList<>();
+        for(Livro livro : livroLista) {
+            LivroDto livroDto = new LivroDto();
+            livroDto.setId(livro.getId());
+            livroDto.setNome(livro.getNome());
+            livroDto.setIsbn(livro.getIsbn());
+            livroDto.setDataDePublicacao(livro.getDataDePublicacao());
+            livroDtoLista.add(livroDto);
+        }
+        return livroDtoLista;
+    }
+
+    public LivroDto buscarPorId(Long id) {
+        Optional<Livro> livroOptional = livroRepository.findById(id);
+        if(livroOptional.isPresent()) {
+            Livro livro = livroOptional.get();
+            LivroDto livroDto = new LivroDto();
+            livroDto.setId(livro.getId());
+            livroDto.setNome(livro.getNome());
+            livroDto.setIsbn(livro.getIsbn());
+            livroDto.setDataDePublicacao(livro.getDataDePublicacao());
+            return livroDto;
+        }
+        else
+            throw new IllegalArgumentException("Livro não encontrado");
+    }
+
+    public LivroDto adicionar(@RequestBody LivroDto livroDto) {
+        Livro livro = new Livro();
+        livro.setNome(livroDto.getNome());
+        livro.setIsbn(livroDto.getIsbn());
+        livro.setDataDePublicacao(livroDto.getDataDePublicacao());
+
+        Livro novoLivro = livroRepository.save(livro);
+        LivroDto novoLivroDto = new LivroDto();
+        novoLivroDto.setId(novoLivro.getId());
+        novoLivroDto.setNome(novoLivro.getNome());
+        novoLivroDto.setIsbn(novoLivro.getIsbn());
+        novoLivroDto.setDataDePublicacao(novoLivro.getDataDePublicacao());
+
+        return novoLivroDto;
+    }
+
+    public void deletarPorId(Long id) {
+        Optional<Livro> livroOptional = livroRepository.findById(id);
+        if(livroOptional.isPresent())
+            livroRepository.deleteById(id);
+        else
+            throw new IllegalArgumentException("Livro não encontrado");
+    }
+
+    public LivroDto atualizar(Long id, LivroDto livroDto) {
+        Optional<Livro> livroOptional = livroRepository.findById(id);
+        if(livroOptional.isPresent()) {
+            Livro livro = livroOptional.get();
+            livro.setNome(livroDto.getNome());
+            livro.setIsbn(livroDto.getIsbn());
+            livro.setDataDePublicacao(livroDto.getDataDePublicacao());
+
+            Livro livroAtualizado = livroRepository.save(livro);
+            LivroDto livroAtualizadoDto = new LivroDto();
+            livroAtualizadoDto.setId(livroAtualizado.getId());
+            livroAtualizadoDto.setNome(livroAtualizado.getNome());
+            livroAtualizadoDto.setIsbn(livroAtualizado.getIsbn());
+            livroAtualizadoDto.setDataDePublicacao(livroAtualizado.getDataDePublicacao());
+
+            return livroAtualizadoDto;
+        }
+        else
+            throw new IllegalArgumentException("Livro não encontrado");
     }
 }

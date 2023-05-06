@@ -20,6 +20,22 @@ public class LocatarioDto {
     @NotNull
     private int cpf;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -39,6 +55,14 @@ public class LocatarioDto {
                 .append(")")
                 .append(numero);
         this.telefone = sb.toString();
+    }
+
+    public void setTelefone(String telefone) {
+        String telefoneSemParenteses = telefone.replace("(", "")
+                                                    .replace(")", "");
+        int ddd = Integer.parseInt(telefoneSemParenteses.substring(0, 2));
+        int numero = Integer.parseInt(telefoneSemParenteses.substring(2));
+        setTelefone(ddd, numero);
     }
 
     public String getEmail() {
