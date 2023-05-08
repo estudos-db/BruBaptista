@@ -1,8 +1,6 @@
 package com.example.livraria.service;
 
-import com.example.livraria.dto.AutorDto;
 import com.example.livraria.dto.LivroDto;
-import com.example.livraria.model.Autor;
 import com.example.livraria.model.Livro;
 import com.example.livraria.repository.LivroRepository;
 import org.springframework.beans.BeanUtils;
@@ -28,12 +26,19 @@ public class LivroService {
         livroDto.setNome(nome);
     }
 
-    public void setisbn(Integer isbn, LivroDto livroDto) {
+    public void setIsbn(Integer isbn, LivroDto livroDto) {
         if(isbn == null || isbn <= 0)
             throw new IllegalArgumentException("isbn inválido");
 
         livroDto.setIsbn(isbn);
     }
+
+//    public void setAutores(List<Autor> autores, LivroDto livroDto) {
+//        if(autores == null || autores.isEmpty())
+//            throw new IllegalArgumentException("Lista de autores inválida");
+//
+//        livroDto.setAutores(autores);
+//    }
 
     public void setDataDePublicacao(LocalDate dataDePublicacao, LivroDto livroDto) {
         if(dataDePublicacao == null)
@@ -44,7 +49,8 @@ public class LivroService {
 
     public LivroDto criar(LivroDto livroDto) {
         setNome(livroDto.getNome(), livroDto);
-        setisbn(livroDto.getIsbn(), livroDto);
+        setIsbn(livroDto.getIsbn(), livroDto);
+        //setAutores(livroDto.getAutores(), livroDto);
         setDataDePublicacao(livroDto.getDataDePublicacao(), livroDto);
 
         Livro livro = new Livro();
@@ -63,6 +69,7 @@ public class LivroService {
             livroDto.setId(livro.getId());
             livroDto.setNome(livro.getNome());
             livroDto.setIsbn(livro.getIsbn());
+            //livroDto.setAutores(livro.getAutores());
             livroDto.setDataDePublicacao(livro.getDataDePublicacao());
             livroDtoLista.add(livroDto);
         }
@@ -77,17 +84,33 @@ public class LivroService {
             livroDto.setId(livro.getId());
             livroDto.setNome(livro.getNome());
             livroDto.setIsbn(livro.getIsbn());
+            //livroDto.setAutores(livro.getAutores());
             livroDto.setDataDePublicacao(livro.getDataDePublicacao());
             return livroDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Livro não encontrado");
     }
+
+//    public List<LivroDto> buscarPorAutor(String nome) {
+//        List<Livro> livroLista = livroRepository.buscarPorAutor(nome);
+//        List<LivroDto> livroDtoLista = new ArrayList<>();
+//        for(Livro livro : livroLista) {
+//            LivroDto livroDto = new LivroDto();
+//            livroDto.setId(livro.getId());
+//            livroDto.setNome(livro.getNome());
+//            livroDto.setIsbn(livro.getIsbn());
+//            livroDto.setAutores(livro.getAutores());
+//            livroDto.setDataDePublicacao(livro.getDataDePublicacao());
+//            livroDtoLista.add(livroDto);
+//        }
+//        return livroDtoLista;
+//    }
 
     public LivroDto adicionar(@RequestBody LivroDto livroDto) {
         Livro livro = new Livro();
         livro.setNome(livroDto.getNome());
         livro.setIsbn(livroDto.getIsbn());
+        //livro.setAutores(livroDto.getAutores());
         livro.setDataDePublicacao(livroDto.getDataDePublicacao());
 
         Livro novoLivro = livroRepository.save(livro);
@@ -95,6 +118,7 @@ public class LivroService {
         novoLivroDto.setId(novoLivro.getId());
         novoLivroDto.setNome(novoLivro.getNome());
         novoLivroDto.setIsbn(novoLivro.getIsbn());
+        //novoLivroDto.setAutores(novoLivro.getAutores());
         novoLivroDto.setDataDePublicacao(novoLivro.getDataDePublicacao());
 
         return novoLivroDto;
@@ -114,6 +138,7 @@ public class LivroService {
             Livro livro = livroOptional.get();
             livro.setNome(livroDto.getNome());
             livro.setIsbn(livroDto.getIsbn());
+            //livro.setAutores(livroDto.getAutores());
             livro.setDataDePublicacao(livroDto.getDataDePublicacao());
 
             Livro livroAtualizado = livroRepository.save(livro);
@@ -121,11 +146,11 @@ public class LivroService {
             livroAtualizadoDto.setId(livroAtualizado.getId());
             livroAtualizadoDto.setNome(livroAtualizado.getNome());
             livroAtualizadoDto.setIsbn(livroAtualizado.getIsbn());
+            //livroAtualizadoDto.setAutores(livroAtualizado.getAutores());
             livroAtualizadoDto.setDataDePublicacao(livroAtualizado.getDataDePublicacao());
 
             return livroAtualizadoDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Livro não encontrado");
     }
 }

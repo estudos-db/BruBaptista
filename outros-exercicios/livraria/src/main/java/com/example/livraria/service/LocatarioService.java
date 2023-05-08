@@ -1,8 +1,6 @@
 package com.example.livraria.service;
 
-import com.example.livraria.dto.AutorDto;
 import com.example.livraria.dto.LocatarioDto;
-import com.example.livraria.model.Autor;
 import com.example.livraria.model.Locatario;
 import com.example.livraria.repository.LocatarioRepository;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +25,6 @@ public class LocatarioService {
 
         locatarioDto.setNome(nome);
     }
-
 
     public void setTelefone(int ddd, int numero, LocatarioDto locatarioDto) {
         if(ddd < 10 || ddd > 99)
@@ -104,8 +101,7 @@ public class LocatarioService {
             locatarioDto.setDataDeNascimento(locatario.getDataDeNascimento());
             locatarioDto.setCpf(locatario.getCpf());
             return locatarioDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Locatario não encontrado");
     }
 
@@ -161,8 +157,7 @@ public class LocatarioService {
             locatarioAtualizadoDto.setCpf(locatarioAtualizado.getCpf());
 
             return locatarioAtualizadoDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Locatario não encontrado");
     }
 }

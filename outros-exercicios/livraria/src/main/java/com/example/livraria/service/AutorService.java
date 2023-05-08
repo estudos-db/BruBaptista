@@ -40,10 +40,15 @@ public class AutorService {
         autorDto.setCpf(cpf);
     }
 
+//    public void setLivros(List<Livro> livros, AutorDto autorDto) {
+//        autorDto.setLivros(livros);
+//    }
+
     public AutorDto criar(AutorDto autorDto) {
         setNome(autorDto.getNome(), autorDto);
         setAnoDeNascimento(autorDto.getAnoDeNascimento(), autorDto);
         setcpf(autorDto.getCpf(), autorDto);
+        //setLivros(autorDto.getLivros(), autorDto);
 
         Autor autor = new Autor();
         BeanUtils.copyProperties(autorDto, autor);
@@ -63,6 +68,7 @@ public class AutorService {
             autorDto.setSexo(autor.getSexo());
             autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
             autorDto.setCpf(autor.getCpf());
+            //autorDto.setLivros(autor.getLivros());
             autorDtoLista.add(autorDto);
         }
         return autorDtoLista;
@@ -78,10 +84,26 @@ public class AutorService {
             autorDto.setSexo(autor.getSexo());
             autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
             autorDto.setCpf(autor.getCpf());
+            //autorDto.setLivros(autor.getLivros());
             return autorDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Autor não encontrado");
+    }
+
+    public List<AutorDto> buscarPorNome(String nome) {
+        List<Autor> autorLista = autorRepository.findByNome(nome);
+        List<AutorDto> autorDtoLista = new ArrayList<>();
+        for(Autor autor : autorLista) {
+            AutorDto autorDto = new AutorDto();
+            autorDto.setId(autor.getId());
+            autorDto.setNome(autor.getNome());
+            autorDto.setSexo(autor.getSexo());
+            autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
+            autorDto.setCpf(autor.getCpf());
+            //autorDto.setLivros(autor.getLivros());
+            autorDtoLista.add(autorDto);
+        }
+        return autorDtoLista;
     }
 
     public AutorDto adicionar(@RequestBody AutorDto autorDto) {
@@ -90,6 +112,7 @@ public class AutorService {
         autor.setSexo(autorDto.getSexo());
         autor.setAnoDeNascimento(autorDto.getAnoDeNascimento());
         autor.setCpf(autorDto.getCpf());
+        //autor.setLivros(autorDto.getLivros());
 
         Autor novoAutor = autorRepository.save(autor);
         AutorDto novoAutorDto = new AutorDto();
@@ -98,6 +121,7 @@ public class AutorService {
         novoAutorDto.setSexo(novoAutor.getSexo());
         novoAutorDto.setAnoDeNascimento(novoAutor.getAnoDeNascimento());
         novoAutorDto.setCpf(novoAutor.getCpf());
+        //novoAutorDto.setLivros(novoAutor.getLivros());
 
         return novoAutorDto;
     }
@@ -118,6 +142,7 @@ public class AutorService {
             autor.setSexo(autorDto.getSexo());
             autor.setAnoDeNascimento(autorDto.getAnoDeNascimento());
             autor.setCpf(autorDto.getCpf());
+            //autor.setLivros(autorDto.getLivros());
 
             Autor autorAtualizado = autorRepository.save(autor);
             AutorDto autorAtualizadoDto = new AutorDto();
@@ -126,10 +151,10 @@ public class AutorService {
             autorAtualizadoDto.setSexo(autorAtualizado.getSexo());
             autorAtualizadoDto.setAnoDeNascimento(autorAtualizado.getAnoDeNascimento());
             autorAtualizadoDto.setCpf(autorAtualizado.getCpf());
+            //autorAtualizadoDto.setLivros(autorAtualizado.getLivros());
 
             return autorAtualizadoDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Autor não encontrado");
     }
 }

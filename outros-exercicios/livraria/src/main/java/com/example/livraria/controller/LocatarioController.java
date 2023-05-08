@@ -1,12 +1,9 @@
 package com.example.livraria.controller;
 
-import com.example.livraria.dto.AutorDto;
 import com.example.livraria.dto.LocatarioDto;
-import com.example.livraria.model.Locatario;
-import com.example.livraria.repository.LocatarioRepository;
 import com.example.livraria.service.LocatarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,32 +19,46 @@ public class LocatarioController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<LocatarioDto> listarTodos() {
-        return locatarioService.listarTodos();
+    public ResponseEntity<List<LocatarioDto>> listarTodos() {
+        if(locatarioService.listarTodos().isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.ok(locatarioService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public LocatarioDto buscarPorId(@PathVariable long id) {
-        return locatarioService.buscarPorId(id);
+    public ResponseEntity<LocatarioDto> buscarPorId(@PathVariable long id) {
+        if(locatarioService.buscarPorId(id) == null)
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(locatarioService.buscarPorId(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public LocatarioDto adicionar(@RequestBody LocatarioDto locatarioDto) {
-        return locatarioService.adicionar(locatarioDto);
+    public ResponseEntity<LocatarioDto> adicionar(@RequestBody LocatarioDto locatarioDto) {
+        try {
+            return ResponseEntity.ok(locatarioService.adicionar(locatarioDto));
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarPorId(@PathVariable long id) {
-        locatarioService.deletarPorId(id);
+    public ResponseEntity<Void> deletarPorId(@PathVariable long id) {
+        try {
+            locatarioService.deletarPorId(id);
+            return ResponseEntity.noContent().build();
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public LocatarioDto atualizar(@PathVariable Long id, @RequestBody LocatarioDto locatarioDto) {
-        return locatarioService.atualizar(id, locatarioDto);
+    public ResponseEntity<LocatarioDto> atualizar(@PathVariable Long id, @RequestBody LocatarioDto locatarioDto) {
+        try {
+            return ResponseEntity.ok(locatarioService.atualizar(id, locatarioDto));
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

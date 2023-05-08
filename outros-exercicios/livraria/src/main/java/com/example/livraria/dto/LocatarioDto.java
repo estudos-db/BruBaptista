@@ -1,6 +1,7 @@
 package com.example.livraria.dto;
 
 import com.example.livraria.model.enums.Sexo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
@@ -57,6 +58,7 @@ public class LocatarioDto {
         this.telefone = sb.toString();
     }
 
+    @JsonIgnore
     public void setTelefone(String telefone) {
         String telefoneSemParenteses = telefone.replace("(", "")
                                                     .replace(")", "");

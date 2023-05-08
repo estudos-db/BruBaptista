@@ -1,15 +1,11 @@
 package com.example.livraria.service;
 
 import com.example.livraria.dto.AluguelDto;
-import com.example.livraria.dto.AutorDto;
 import com.example.livraria.model.Aluguel;
-import com.example.livraria.model.Autor;
-import com.example.livraria.model.Livro;
 import com.example.livraria.repository.AluguelRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,11 +19,17 @@ public class AluguelService {
     private AluguelRepository aluguelRepository;
 
     public void setDataRetirada(LocalDate dataRetirada, AluguelDto aluguelDto) {
-        aluguelDto.setDataRetirada(LocalDate.now());
+        if(dataRetirada == null)
+            throw new IllegalArgumentException("Data de retirada inválida");
+
+        aluguelDto.setDataRetirada(dataRetirada);
     }
 
     public void setDataDevolucao(LocalDate dataDevolucao, AluguelDto aluguelDto) {
-        aluguelDto.setDataDevolucao(aluguelDto.getDataRetirada().plusDays(2));
+        if(dataDevolucao == null)
+            throw new IllegalArgumentException("Data de devolução inválida");
+
+        aluguelDto.setDataDevolucao(dataDevolucao);
     }
 
     public AluguelDto criar(AluguelDto aluguelDto) {
@@ -64,8 +66,7 @@ public class AluguelService {
             aluguelDto.setDataRetirada(aluguel.getDataRetirada());
             aluguelDto.setDataDevolucao(aluguel.getDataDevolucao());
             return aluguelDto;
-        }
-        else
+        } else
             throw new IllegalArgumentException("Aluguel não encontrado");
     }
 
@@ -86,6 +87,24 @@ public class AluguelService {
         if(aluguelOptional.isPresent())
             aluguelRepository.deleteById(id);
         else
+            throw new IllegalArgumentException("Aluguel não encontrado");
+    }
+
+    public AluguelDto atualizar(Long id, AluguelDto aluguelDto) {
+        Optional<Aluguel> aluguelOptional = aluguelRepository.findById(id);
+        if(aluguelOptional.isPresent()) {
+            Aluguel aluguel = aluguelOptional.get();
+            aluguel.setDataRetirada(aluguelDto.getDataRetirada());
+            aluguel.setDataDevolucao(aluguelDto.getDataDevolucao());
+
+            Aluguel aluguelAtualizado = new Aluguel();
+            AluguelDto aluguelAtualizadoDto = new AluguelDto();
+            aluguelAtualizadoDto.setId(aluguelAtualizado.getId());
+            aluguelAtualizadoDto.setDataRetirada(aluguelAtualizado.getDataRetirada());
+            aluguelAtualizadoDto.setDataDevolucao(aluguelAtualizado.getDataDevolucao());
+
+            return aluguelAtualizadoDto;
+        } else
             throw new IllegalArgumentException("Aluguel não encontrado");
     }
 }
