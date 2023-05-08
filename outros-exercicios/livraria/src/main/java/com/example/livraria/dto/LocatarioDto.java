@@ -58,7 +58,6 @@ public class LocatarioDto {
         this.telefone = sb.toString();
     }
 
-    @JsonIgnore
     public void setTelefone(String telefone) {
         String telefoneSemParenteses = telefone.replace("(", "")
                                                     .replace(")", "");

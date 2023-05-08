@@ -106,9 +106,15 @@ public class LocatarioService {
     }
 
     public LocatarioDto adicionar(@RequestBody LocatarioDto locatarioDto) {
+        if(locatarioDto.getTelefone() == null ||
+                (12 <= locatarioDto.getTelefone().length() && locatarioDto.getTelefone().length() >= 13) ||
+                (!locatarioDto.getTelefone().contains("(") && !locatarioDto.getTelefone().contains(")")))
+            throw new IllegalArgumentException("Telefone inválido");
+
         Locatario locatario = new Locatario();
         locatario.setNome(locatarioDto.getNome());
         locatario.setSexo(locatarioDto.getSexo());
+        System.out.println(locatarioDto.getTelefone());
         locatario.setTelefone(locatarioDto.getTelefone());
         locatario.setEmail(locatarioDto.getEmail());
         locatario.setDataDeNascimento(locatarioDto.getDataDeNascimento());

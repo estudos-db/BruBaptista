@@ -36,7 +36,7 @@ public class AutorController {
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<AutorDto>> buscarPorNome(@PathVariable String nome) {
-        if(autorService.buscarPorNome(nome) == null)
+        if(autorService.buscarPorNome(nome) == null || autorService.buscarPorNome(nome).isEmpty())
             return ResponseEntity.notFound().build();
         else
             return ResponseEntity.ok(autorService.buscarPorNome(nome));

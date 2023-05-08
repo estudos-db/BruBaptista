@@ -97,9 +97,8 @@ public class AluguelService {
             aluguel.setDataRetirada(aluguelDto.getDataRetirada());
             aluguel.setDataDevolucao(aluguelDto.getDataDevolucao());
 
-            Aluguel aluguelAtualizado = new Aluguel();
+            Aluguel aluguelAtualizado = aluguelRepository.save(aluguel);
             AluguelDto aluguelAtualizadoDto = new AluguelDto();
-            aluguelAtualizadoDto.setId(aluguelAtualizado.getId());
             aluguelAtualizadoDto.setDataRetirada(aluguelAtualizado.getDataRetirada());
             aluguelAtualizadoDto.setDataDevolucao(aluguelAtualizado.getDataDevolucao());
 
