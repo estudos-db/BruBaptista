@@ -41,16 +41,17 @@ public class LivroController {
     @GetMapping("/autor/{nome}")
     public ResponseEntity<List<LivroDto>> buscarPorAutor(@PathVariable String nome) {
         List<LivroDto> livroDtoLista = livroService.buscarPorAutor(nome);
-        if(livroDtoLista.isEmpty())
+        if(livroDtoLista == null || livroDtoLista.isEmpty())
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.ok(livroDtoLista);
     }
 
+
     @GetMapping("/locatario/{nome}")
     public ResponseEntity<List<LivroDto>> buscarPorLocatario(@PathVariable String nome) {
         List<LivroDto> livroDtoLista = livroService.buscarPorLocatario(nome);
-        if(livroDtoLista.isEmpty())
+        if(livroDtoLista == null || livroDtoLista.isEmpty())
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.ok(livroDtoLista);
