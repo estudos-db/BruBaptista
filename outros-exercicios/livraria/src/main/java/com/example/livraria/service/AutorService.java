@@ -1,16 +1,20 @@
 package com.example.livraria.service;
 
 import com.example.livraria.dto.AutorDto;
+import com.example.livraria.exception.AutorComLivroException;
+import com.example.livraria.exception.AutorDuplicadoException;
+import com.example.livraria.exception.AutorNaoEncontradoException;
 import com.example.livraria.model.Autor;
+import com.example.livraria.model.Livro;
 import com.example.livraria.repository.AutorRepository;
-import org.springframework.beans.BeanUtils;
+import com.example.livraria.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,43 +23,28 @@ public class AutorService {
     @Autowired
     private AutorRepository autorRepository;
 
-    public void setNome(String nome, AutorDto autorDto) {
+    @Autowired
+    private LivroRepository livroRepository;
+
+    public void setNome(String nome, Autor autor) {
         if(nome == null || nome.isEmpty())
             throw new IllegalArgumentException("Nome inválido");
 
-        autorDto.setNome(nome);
+        autor.setNome(nome);
     }
 
-    public void setAnoDeNascimento(Integer anoDeNascimento, AutorDto autorDto) {
+    public void setAnoDeNascimento(Integer anoDeNascimento, Autor autor) {
         if(anoDeNascimento == null || anoDeNascimento > LocalDate.now().getYear())
             throw new IllegalArgumentException("Ano de nascimento inválido");
 
-        autorDto.setAnoDeNascimento(anoDeNascimento);
+        autor.setAnoDeNascimento(anoDeNascimento);
     }
 
-    public void setcpf(Integer cpf, AutorDto autorDto) {
+    public void setcpf(Integer cpf, Autor autor) {
         if(cpf == null || cpf <= 0)
             throw new IllegalArgumentException("CPF inválido");
 
-        autorDto.setCpf(cpf);
-    }
-
-//    public void setLivros(List<Livro> livros, AutorDto autorDto) {
-//        autorDto.setLivros(livros);
-//    }
-
-    public AutorDto criar(AutorDto autorDto) {
-        setNome(autorDto.getNome(), autorDto);
-        setAnoDeNascimento(autorDto.getAnoDeNascimento(), autorDto);
-        setcpf(autorDto.getCpf(), autorDto);
-        //setLivros(autorDto.getLivros(), autorDto);
-
-        Autor autor = new Autor();
-        BeanUtils.copyProperties(autorDto, autor);
-        autor = autorRepository.save(autor);
-        BeanUtils.copyProperties(autor, autorDto);
-
-        return autorDto;
+        autor.setCpf(cpf);
     }
 
     public List<AutorDto> listarTodos() {
@@ -68,7 +57,6 @@ public class AutorService {
             autorDto.setSexo(autor.getSexo());
             autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
             autorDto.setCpf(autor.getCpf());
-            //autorDto.setLivros(autor.getLivros());
             autorDtoLista.add(autorDto);
         }
         return autorDtoLista;
@@ -84,7 +72,6 @@ public class AutorService {
             autorDto.setSexo(autor.getSexo());
             autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
             autorDto.setCpf(autor.getCpf());
-            //autorDto.setLivros(autor.getLivros());
             return autorDto;
         } else
             throw new IllegalArgumentException("Autor não encontrado");
@@ -100,49 +87,61 @@ public class AutorService {
             autorDto.setSexo(autor.getSexo());
             autorDto.setAnoDeNascimento(autor.getAnoDeNascimento());
             autorDto.setCpf(autor.getCpf());
-            //autorDto.setLivros(autor.getLivros());
             autorDtoLista.add(autorDto);
         }
         return autorDtoLista;
     }
 
-    public AutorDto adicionar(@RequestBody AutorDto autorDto) {
+    public AutorDto adicionar(AutorDto autorDto) {
+
         Autor autor = new Autor();
-        autor.setNome(autorDto.getNome());
+        setNome(autorDto.getNome(), autor);
         autor.setSexo(autorDto.getSexo());
-        autor.setAnoDeNascimento(autorDto.getAnoDeNascimento());
-        autor.setCpf(autorDto.getCpf());
-        //autor.setLivros(autorDto.getLivros());
+        setAnoDeNascimento(autorDto.getAnoDeNascimento(), autor);
+        setcpf(autorDto.getCpf(), autor);
 
         Autor novoAutor = autorRepository.save(autor);
+
         AutorDto novoAutorDto = new AutorDto();
         novoAutorDto.setId(novoAutor.getId());
         novoAutorDto.setNome(novoAutor.getNome());
         novoAutorDto.setSexo(novoAutor.getSexo());
         novoAutorDto.setAnoDeNascimento(novoAutor.getAnoDeNascimento());
         novoAutorDto.setCpf(novoAutor.getCpf());
-        //novoAutorDto.setLivros(novoAutor.getLivros());
 
         return novoAutorDto;
     }
 
     public void deletarPorId(Long id) {
         Optional<Autor> autorOptional = autorRepository.findById(id);
-        if(autorOptional.isPresent())
-            autorRepository.deleteById(id);
-        else
-         throw new IllegalArgumentException("Autor não encontrado");
+        if(!autorOptional.isPresent())
+            throw new AutorNaoEncontradoException("Autor não encontrado");
+
+        boolean encontrado = false;
+        List<Livro> livroLista = livroRepository.findAll();
+        for(Livro livro : livroLista) {
+            for(Autor autor : livro.getAutores())
+                if(Objects.equals(autor.getId(), id)) {
+                    encontrado = true;
+                    break;
+                }
+            if(encontrado) break;
+        }
+
+        if(encontrado)
+            throw new AutorComLivroException("O autor contém algum livro e não pode ser deletado");
+
+        autorRepository.deleteById(id);
     }
 
     public AutorDto atualizar(Long id, AutorDto autorDto) {
         Optional<Autor> autorOptional = autorRepository.findById(id);
         if(autorOptional.isPresent()) {
             Autor autor = autorOptional.get();
-            autor.setNome(autorDto.getNome());
+            setNome(autorDto.getNome(), autor);
             autor.setSexo(autorDto.getSexo());
-            autor.setAnoDeNascimento(autorDto.getAnoDeNascimento());
-            autor.setCpf(autorDto.getCpf());
-            //autor.setLivros(autorDto.getLivros());
+            setAnoDeNascimento(autorDto.getAnoDeNascimento(), autor);
+            setcpf(autorDto.getCpf(), autor);
 
             Autor autorAtualizado = autorRepository.save(autor);
             AutorDto autorAtualizadoDto = new AutorDto();
@@ -151,7 +150,6 @@ public class AutorService {
             autorAtualizadoDto.setSexo(autorAtualizado.getSexo());
             autorAtualizadoDto.setAnoDeNascimento(autorAtualizado.getAnoDeNascimento());
             autorAtualizadoDto.setCpf(autorAtualizado.getCpf());
-            //autorAtualizadoDto.setLivros(autorAtualizado.getLivros());
 
             return autorAtualizadoDto;
         } else

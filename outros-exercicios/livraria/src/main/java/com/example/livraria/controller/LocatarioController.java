@@ -1,6 +1,9 @@
 package com.example.livraria.controller;
 
 import com.example.livraria.dto.LocatarioDto;
+import com.example.livraria.exception.LocatarioComAluguelException;
+import com.example.livraria.exception.LocatarioDuplicadoException;
+import com.example.livraria.exception.LocatarioNaoEncontradoException;
 import com.example.livraria.service.LocatarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,26 +23,32 @@ public class LocatarioController {
 
     @GetMapping
     public ResponseEntity<List<LocatarioDto>> listarTodos() {
-        if(locatarioService.listarTodos().isEmpty())
+        List<LocatarioDto> LocatarioDtoLista = locatarioService.listarTodos();
+        if(LocatarioDtoLista.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(locatarioService.listarTodos());
+            return ResponseEntity.ok(LocatarioDtoLista);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<LocatarioDto> buscarPorId(@PathVariable long id) {
-        if(locatarioService.buscarPorId(id) == null)
+        LocatarioDto locatarioDto = locatarioService.buscarPorId(id);
+        if(locatarioDto == null)
             return ResponseEntity.notFound().build();
         else
-            return ResponseEntity.ok(locatarioService.buscarPorId(id));
+            return ResponseEntity.ok(locatarioDto);
     }
 
     @PostMapping
     public ResponseEntity<LocatarioDto> adicionar(@RequestBody LocatarioDto locatarioDto) {
         try {
-            return ResponseEntity.ok(locatarioService.adicionar(locatarioDto));
+            LocatarioDto locatarioDtoAdd = locatarioService.adicionar(locatarioDto);
+            return ResponseEntity.ok(locatarioDtoAdd);
         } catch(IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch(LocatarioDuplicadoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -49,6 +58,10 @@ public class LocatarioController {
             locatarioService.deletarPorId(id);
             return ResponseEntity.noContent().build();
         } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (LocatarioComAluguelException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (LocatarioNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -56,7 +69,8 @@ public class LocatarioController {
     @PutMapping("/{id}")
     public ResponseEntity<LocatarioDto> atualizar(@PathVariable Long id, @RequestBody LocatarioDto locatarioDto) {
         try {
-            return ResponseEntity.ok(locatarioService.atualizar(id, locatarioDto));
+            LocatarioDto locatarioDtoPut = locatarioService.atualizar(id, locatarioDto);
+            return ResponseEntity.ok(locatarioDtoPut);
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

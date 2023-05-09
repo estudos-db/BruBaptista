@@ -1,6 +1,9 @@
 package com.example.livraria.controller;
 
 import com.example.livraria.dto.AutorDto;
+import com.example.livraria.exception.AutorComLivroException;
+import com.example.livraria.exception.AutorDuplicadoException;
+import com.example.livraria.exception.AutorNaoEncontradoException;
 import com.example.livraria.service.AutorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,34 +23,40 @@ public class AutorController {
 
     @GetMapping
     public ResponseEntity<List<AutorDto>> listarTodos() {
-        if(autorService.listarTodos().isEmpty())
+        List<AutorDto> autorDtoLista = autorService.listarTodos();
+        if(autorDtoLista.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(autorService.listarTodos());
+            return ResponseEntity.ok(autorDtoLista);
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<AutorDto> buscarPorId(@PathVariable long id) {
-        if(autorService.buscarPorId(id) == null)
+        AutorDto autorDto = autorService.buscarPorId(id);
+        if(autorDto == null)
             return ResponseEntity.notFound().build();
         else
-            return ResponseEntity.ok(autorService.buscarPorId(id));
+            return ResponseEntity.ok(autorDto);
     }
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<AutorDto>> buscarPorNome(@PathVariable String nome) {
-        if(autorService.buscarPorNome(nome) == null || autorService.buscarPorNome(nome).isEmpty())
+        List<AutorDto> autorDtoLista = autorService.buscarPorNome(nome);
+        if(autorDtoLista == null || autorDtoLista.isEmpty())
             return ResponseEntity.notFound().build();
         else
-            return ResponseEntity.ok(autorService.buscarPorNome(nome));
+            return ResponseEntity.ok(autorDtoLista);
     }
 
     @PostMapping
     public ResponseEntity<AutorDto> adicionar(@RequestBody AutorDto autorDto) {
         try {
-            return ResponseEntity.ok(autorService.adicionar(autorDto));
+            AutorDto autorDtoAdd = autorService.adicionar(autorDto);
+            return ResponseEntity.ok(autorDtoAdd);
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch(AutorDuplicadoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
 
@@ -56,15 +65,20 @@ public class AutorController {
         try {
             autorService.deletarPorId(id);
             return ResponseEntity.noContent().build();
-        } catch(IllegalArgumentException e) {
+        } catch(AutorComLivroException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch(AutorNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AutorDto> atualizar(@PathVariable Long id, @RequestBody AutorDto autorDto) {
         try {
-            return ResponseEntity.ok(autorService.atualizar(id, autorDto));
+            AutorDto autorDtoPut = autorService.atualizar(id, autorDto);
+            return ResponseEntity.ok(autorDtoPut);
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

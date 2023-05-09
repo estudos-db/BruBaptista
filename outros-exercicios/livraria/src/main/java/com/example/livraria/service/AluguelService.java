@@ -2,8 +2,10 @@ package com.example.livraria.service;
 
 import com.example.livraria.dto.AluguelDto;
 import com.example.livraria.model.Aluguel;
+import com.example.livraria.model.Livro;
+import com.example.livraria.model.Locatario;
 import com.example.livraria.repository.AluguelRepository;
-import org.springframework.beans.BeanUtils;
+import com.example.livraria.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,30 +20,35 @@ public class AluguelService {
     @Autowired
     private AluguelRepository aluguelRepository;
 
-    public void setDataRetirada(LocalDate dataRetirada, AluguelDto aluguelDto) {
+    @Autowired
+    private LivroRepository livroRepository;
+
+    public void setLocatario(Locatario locatario, Aluguel aluguel) {
+        if(locatario == null)
+            throw new IllegalArgumentException("Locatário inválido");
+
+        aluguel.setLocatario(locatario);
+    }
+
+    public void setLivros(List<Livro> livros, Aluguel aluguel) {
+        if(livros == null || livros.isEmpty())
+            throw new IllegalArgumentException("Lista de livros inválida");
+        else
+            aluguel.setLivros(livros);
+    }
+
+    public void setDataRetirada(LocalDate dataRetirada, Aluguel aluguel) {
         if(dataRetirada == null)
             throw new IllegalArgumentException("Data de retirada inválida");
 
-        aluguelDto.setDataRetirada(dataRetirada);
+        aluguel.setDataRetirada(dataRetirada);
     }
 
-    public void setDataDevolucao(LocalDate dataDevolucao, AluguelDto aluguelDto) {
+    public void setDataDevolucao(LocalDate dataDevolucao, Aluguel aluguel) {
         if(dataDevolucao == null)
             throw new IllegalArgumentException("Data de devolução inválida");
 
-        aluguelDto.setDataDevolucao(dataDevolucao);
-    }
-
-    public AluguelDto criar(AluguelDto aluguelDto) {
-        setDataRetirada(aluguelDto.getDataRetirada(), aluguelDto);
-        setDataDevolucao(aluguelDto.getDataDevolucao(), aluguelDto);
-
-        Aluguel aluguel = new Aluguel();
-        BeanUtils.copyProperties(aluguelDto, aluguel);
-        aluguel = aluguelRepository.save(aluguel);
-        BeanUtils.copyProperties(aluguel, aluguelDto);
-
-        return aluguelDto;
+        aluguel.setDataDevolucao(dataDevolucao);
     }
 
     public List<AluguelDto> listarTodos() {
@@ -50,6 +57,8 @@ public class AluguelService {
         for(Aluguel aluguel : aluguelLista) {
             AluguelDto aluguelDto = new AluguelDto();
             aluguelDto.setId(aluguel.getId());
+            aluguelDto.setLocatario(aluguel.getLocatario());
+            aluguelDto.setLivros(aluguel.getLivros());
             aluguelDto.setDataRetirada(aluguel.getDataRetirada());
             aluguelDto.setDataDevolucao(aluguel.getDataDevolucao());
             aluguelDtoLista.add(aluguelDto);
@@ -63,6 +72,8 @@ public class AluguelService {
             Aluguel aluguel = aluguelOptional.get();
             AluguelDto aluguelDto = new AluguelDto();
             aluguelDto.setId(aluguel.getId());
+            aluguelDto.setLocatario(aluguel.getLocatario());
+            aluguelDto.setLivros(aluguel.getLivros());
             aluguelDto.setDataRetirada(aluguel.getDataRetirada());
             aluguelDto.setDataDevolucao(aluguel.getDataDevolucao());
             return aluguelDto;
@@ -70,14 +81,29 @@ public class AluguelService {
             throw new IllegalArgumentException("Aluguel não encontrado");
     }
 
-    public AluguelDto adicionar() {
+    public AluguelDto adicionar(AluguelDto aluguelDto) {
         Aluguel aluguel = new Aluguel();
+        setLocatario(aluguelDto.getLocatario(), aluguel);
+        setLivros(aluguelDto.getLivros(), aluguel);
+        aluguel.setDataRetirada(LocalDate.now());
+        aluguel.setDataDevolucao(LocalDate.now().plusDays(2));
 
         Aluguel novoAluguel = aluguelRepository.save(aluguel);
         AluguelDto novoAluguelDto = new AluguelDto();
         novoAluguelDto.setId(novoAluguel.getId());
+        novoAluguelDto.setLocatario(novoAluguel.getLocatario());
+        novoAluguelDto.setLivros(novoAluguel.getLivros());
         novoAluguelDto.setDataRetirada(novoAluguel.getDataRetirada());
         novoAluguelDto.setDataDevolucao(novoAluguel.getDataDevolucao());
+
+        List<Livro> livrosAtualizados = new ArrayList<>();
+        List<Livro> livroLista = aluguelDto.getLivros();
+        for(int i = 0; i < livroLista.size(); i++) {
+            Livro livro = livroRepository.getReferenceById(livroLista.get(i).getId());
+            livro.setAlugado(true);
+            livrosAtualizados.add(livro);
+        }
+        livroRepository.saveAll(livrosAtualizados);
 
         return novoAluguelDto;
     }
@@ -94,11 +120,15 @@ public class AluguelService {
         Optional<Aluguel> aluguelOptional = aluguelRepository.findById(id);
         if(aluguelOptional.isPresent()) {
             Aluguel aluguel = aluguelOptional.get();
+            setLocatario(aluguelDto.getLocatario(), aluguel);
+            setLivros(aluguelDto.getLivros(), aluguel);
             aluguel.setDataRetirada(aluguelDto.getDataRetirada());
             aluguel.setDataDevolucao(aluguelDto.getDataDevolucao());
 
             Aluguel aluguelAtualizado = aluguelRepository.save(aluguel);
             AluguelDto aluguelAtualizadoDto = new AluguelDto();
+            aluguelAtualizadoDto.setLocatario(aluguelAtualizado.getLocatario());
+            aluguelAtualizadoDto.setLivros(aluguelAtualizado.getLivros());
             aluguelAtualizadoDto.setDataRetirada(aluguelAtualizado.getDataRetirada());
             aluguelAtualizadoDto.setDataDevolucao(aluguelAtualizado.getDataDevolucao());
 

@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,4 +16,7 @@ public class Livro {
     private String nome;
     private int isbn;
     private LocalDate dataDePublicacao;
+    private boolean alugado = false;
+    @ManyToMany
+    private List<Autor> autores = new ArrayList<>();
 }

@@ -1,9 +1,11 @@
 package com.example.livraria.dto;
 
+import com.example.livraria.model.Aluguel;
 import com.example.livraria.model.enums.Sexo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +22,7 @@ public class LocatarioDto {
     private LocalDate dataDeNascimento;
     @NotNull
     private int cpf;
+    private List<Aluguel> alugeis = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -49,21 +52,8 @@ public class LocatarioDto {
         return telefone;
     }
 
-    public void setTelefone(int ddd, int numero) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(")
-                .append(ddd)
-                .append(")")
-                .append(numero);
-        this.telefone = sb.toString();
-    }
-
     public void setTelefone(String telefone) {
-        String telefoneSemParenteses = telefone.replace("(", "")
-                                                    .replace(")", "");
-        int ddd = Integer.parseInt(telefoneSemParenteses.substring(0, 2));
-        int numero = Integer.parseInt(telefoneSemParenteses.substring(2));
-        setTelefone(ddd, numero);
+        this.telefone = telefone;
     }
 
     public String getEmail() {
@@ -88,5 +78,13 @@ public class LocatarioDto {
 
     public void setCpf(int cpf) {
         this.cpf = cpf;
+    }
+
+    public List<Aluguel> getAlugeis() {
+        return alugeis;
+    }
+
+    public void setAlugeis(List<Aluguel> alugeis) {
+        this.alugeis = alugeis;
     }
 }

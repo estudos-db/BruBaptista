@@ -20,24 +20,27 @@ public class AluguelController {
 
     @GetMapping
     public ResponseEntity<List<AluguelDto>> listarTodos() {
-        if(aluguelService.listarTodos().isEmpty())
+        List<AluguelDto> aluguelDtoLista = aluguelService.listarTodos();
+        if(aluguelDtoLista.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(aluguelService.listarTodos());
+            return ResponseEntity.ok(aluguelDtoLista);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AluguelDto> buscarPorId(@PathVariable long id) {
-        if(aluguelService.buscarPorId(id) == null)
+        AluguelDto aluguelDto = aluguelService.buscarPorId(id);
+        if(aluguelDto == null)
             return ResponseEntity.notFound().build();
         else
-            return ResponseEntity.ok(aluguelService.buscarPorId(id));
+            return ResponseEntity.ok(aluguelDto);
     }
 
     @PostMapping
-    public ResponseEntity<AluguelDto> adicionar() {
+    public ResponseEntity<AluguelDto> adicionar(@RequestBody AluguelDto aluguelDto) {
         try {
-            return ResponseEntity.ok(aluguelService.adicionar());
+            AluguelDto aluguelDtoAdd = aluguelService.adicionar(aluguelDto);
+            return ResponseEntity.ok(aluguelDtoAdd);
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -56,7 +59,8 @@ public class AluguelController {
     @PutMapping("/{id}")
     public ResponseEntity<AluguelDto> atualizar(@PathVariable Long id, @RequestBody AluguelDto aluguelDto) {
         try {
-            return ResponseEntity.ok(aluguelService.atualizar(id, aluguelDto));
+            AluguelDto AluguelDtoPut = aluguelService.atualizar(id, aluguelDto);
+            return ResponseEntity.ok(AluguelDtoPut);
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

@@ -1,6 +1,6 @@
 package com.example.livraria.service;
 
-import com.example.livraria.dto.LocatarioDto;
+import com.example.livraria.model.Locatario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,86 +22,90 @@ class LocatarioServiceTest {
     @DisplayName("Deve modificar o nome do locatario")
     @Test
     public void deveModificarNome() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setNome("Teste");
-        locatarioService.setNome("NovoNome", locatarioDto);
+        Locatario locatario = new Locatario();
+        locatario.setNome("Teste");
+        locatarioService.setNome("NovoNome", locatario);
 
-        assertEquals("NovoNome", locatarioDto.getNome());
+        assertEquals("NovoNome", locatario.getNome());
     }
 
     @DisplayName("Deve retornar erro se o nome do locatario for nulo ou vazio")
     @Test
     public void deveRetornarErroNomeNuloOuVazio() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setNome("Teste");
+        Locatario locatario = new Locatario();
+        locatario.setNome("Teste");
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setNome("", locatarioDto));
+                locatarioService.setNome("", locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setNome(null, locatarioDto));
+                locatarioService.setNome(null, locatario));
     }
 
     @DisplayName("Deve modificar o telefone do locatario")
     @Test
     public void deveModificarTelefone() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setTelefone(10, 12345678);
-        locatarioService.setTelefone(99, 123456789, locatarioDto);
+        Locatario locatario = new Locatario();
+        locatario.setTelefone("01234567890");
+        locatarioService.setTelefone("09876543210", locatario);
 
-        assertEquals("(99)123456789", locatarioDto.getTelefone());
+        assertEquals("(09)876543210", locatario.getTelefone());
     }
 
-    @DisplayName("Deve retornar erro se o ddd do locatario tiver mais ou menos de 2 dígitos")
+    @DisplayName("Deve retornar erro se o telefone do locatario tiver mais ou menos de 11 dígitos")
     @Test
-    public void deveRetornarErroDddComMaisOuMenosDeDoisDigitos() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setTelefone(10, 12345678);
+    public void deveRetornarErroTelefoneComMaisOuMenosDeOnzeDigitos() {
+        Locatario locatario = new Locatario();
+        locatario.setTelefone("01234567890");
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setTelefone(1, 123456789, locatarioDto));
+                locatarioService.setTelefone("1234567890", locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setTelefone(111, 123456789, locatarioDto));
+                locatarioService.setTelefone("123456789012", locatario));
     }
 
-    @DisplayName("Deve retornar erro se o número do locatario tiver menos de 8, ou mais de 9 dígitos")
+    @DisplayName("Deve retornar erro se o telefone do locatario contiver caracteres que não são números")
     @Test
-    public void deveRetornarErroNumeroComMenosDeOitoOuMaisDeNoveDigitos() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setTelefone(10, 12345678);
+    public void deveRetornarErroTelefoneComCaracteresQueNaoSaoNumeros() {
+        Locatario locatario = new Locatario();
+        locatario.setTelefone("12345678");
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setTelefone(10, 1234567, locatarioDto));
+                locatarioService.setTelefone("a1234567890", locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setTelefone(10, 1234567890, locatarioDto));
+                locatarioService.setTelefone("12345(67890", locatario));
+
+        assertThrows(IllegalArgumentException.class, () ->
+                locatarioService.setTelefone("12345-67890", locatario));
     }
+
 
     @DisplayName("Deve modificar o email do locatario")
     @Test
     public void deveModificarEmail() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setEmail("a@b.com");
-        locatarioService.setNome("aaa@bbb.com.br", locatarioDto);
+        Locatario locatario = new Locatario();
+        locatario.setEmail("a@b.com");
+        locatarioService.setNome("aaa@bbb.com.br", locatario);
 
-        assertEquals("aaa@bbb.com.br", locatarioDto.getNome());
+        assertEquals("aaa@bbb.com.br", locatario.getNome());
     }
 
     @DisplayName("Deve retornar erro se o email do locatario for nulo ou conter espaços, ou não conter @")
     @Test
     public void deveRetornarErroEmailNuloOuComEspacosOuComArroba() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setEmail("a@b.com");
+        Locatario locatario = new Locatario();
+        locatario.setEmail("a@b.com");
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setEmail("aaa @bbb.com.br", locatarioDto));
+                locatarioService.setEmail("aaa @bbb.com.br", locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setEmail(null, locatarioDto));
+                locatarioService.setEmail(null, locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setEmail("aaabbb.com.br", locatarioDto));
+                locatarioService.setEmail("aaabbb.com.br", locatario));
     }
 
     @DisplayName("Deve modificar a data de nascimento do locatario")
@@ -110,11 +114,11 @@ class LocatarioServiceTest {
         LocalDate data = LocalDate.of(1990, 5, 10);
         LocalDate data2 = LocalDate.of(1991, 6, 11);
 
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setDataDeNascimento(data);
-        locatarioService.setDataDeNascimento(data2, locatarioDto);
+        Locatario locatario = new Locatario();
+        locatario.setDataDeNascimento(data);
+        locatarioService.setDataDeNascimento(data2, locatario);
 
-        assertEquals(data2, locatarioDto.getDataDeNascimento());
+        assertEquals(data2, locatario.getDataDeNascimento());
     }
 
     @DisplayName("Deve retornar erro se a data de nascimento do locatario for nulo, ou o ano for menor que 1900")
@@ -122,39 +126,39 @@ class LocatarioServiceTest {
     public void deveRetornarErroDataDePublicacaoNulo() {
         LocalDate data = LocalDate.of(1990, 5, 10);
         LocalDate data2 = LocalDate.of(1899, 6, 11);
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setDataDeNascimento(data);
+        Locatario locatario = new Locatario();
+        locatario.setDataDeNascimento(data);
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setDataDeNascimento(null, locatarioDto));
+                locatarioService.setDataDeNascimento(null, locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setDataDeNascimento(data2, locatarioDto));
+                locatarioService.setDataDeNascimento(data2, locatario));
     }
 
     @DisplayName("Deve modificar o cpf do locatario")
     @Test
     public void deveModificarCpf() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setCpf(123456789);
-        locatarioService.setcpf(987654321, locatarioDto);
+        Locatario locatario = new Locatario();
+        locatario.setCpf(123456789);
+        locatarioService.setcpf(987654321, locatario);
 
-        assertEquals(987654321, locatarioDto.getCpf());
+        assertEquals(987654321, locatario.getCpf());
     }
 
     @DisplayName("Deve retornar erro se o cpf do locatario for nulo, zero ou menor")
     @Test
     public void deveRetornarErroCpfNuloZeroOuMenor() {
-        LocatarioDto locatarioDto = new LocatarioDto();
-        locatarioDto.setCpf(123456789);
+        Locatario locatario = new Locatario();
+        locatario.setCpf(123456789);
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setcpf(null, locatarioDto));
+                locatarioService.setcpf(null, locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setcpf(0, locatarioDto));
+                locatarioService.setcpf(0, locatario));
 
         assertThrows(IllegalArgumentException.class, () ->
-                locatarioService.setcpf(-10, locatarioDto));
+                locatarioService.setcpf(-10, locatario));
     }
 }

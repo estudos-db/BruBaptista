@@ -1,16 +1,21 @@
 package com.example.livraria.service;
 
 import com.example.livraria.dto.LocatarioDto;
+import com.example.livraria.exception.AutorDuplicadoException;
+import com.example.livraria.exception.LocatarioComAluguelException;
+import com.example.livraria.exception.LocatarioDuplicadoException;
+import com.example.livraria.exception.LocatarioNaoEncontradoException;
+import com.example.livraria.model.Aluguel;
 import com.example.livraria.model.Locatario;
+import com.example.livraria.repository.AluguelRepository;
 import com.example.livraria.repository.LocatarioRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -19,56 +24,49 @@ public class LocatarioService {
     @Autowired
     private LocatarioRepository locatarioRepository;
 
-    public void setNome(String nome, LocatarioDto locatarioDto) {
+    @Autowired
+    private AluguelRepository aluguelRepository;
+
+    public void setNome(String nome, Locatario locatario) {
         if(nome == null || nome.isEmpty())
             throw new IllegalArgumentException("Nome inválido");
 
-        locatarioDto.setNome(nome);
+        locatario.setNome(nome);
     }
 
-    public void setTelefone(int ddd, int numero, LocatarioDto locatarioDto) {
-        if(ddd < 10 || ddd > 99)
-            throw new IllegalArgumentException("O DDD deve ter 2 dígitos");
+    public void setTelefone(String telefone, Locatario locatario) {
+        if (!telefone.matches("[0-9]{11}")) {
+            throw new IllegalArgumentException("Deve conter somente 11 números");
+        }
 
-        if(numero < 10000000 || numero > 999999999)
-            throw new IllegalArgumentException("O número deve ter 8 ou 9 dígitos");
+        StringBuilder sb = new StringBuilder();
+        sb.append("(")
+                .append(telefone.substring(0, 2))
+                .append(")")
+                .append(telefone.substring(2));
 
-        locatarioDto.setTelefone(ddd, numero);
+        locatario.setTelefone(sb.toString());
     }
 
-    public void setEmail(String email, LocatarioDto locatarioDto) {
+    public void setEmail(String email, Locatario locatario) {
         if(email == null || !email.contains("@") || email.contains(" "))
             throw new IllegalArgumentException("Email inválido");
 
-        locatarioDto.setEmail(email);
+        locatario.setEmail(email);
     }
 
-    public void setDataDeNascimento(LocalDate dataDeNascimento, LocatarioDto locatarioDto) {
+    public void setDataDeNascimento(LocalDate dataDeNascimento, Locatario locatario) {
         if(dataDeNascimento == null || dataDeNascimento.getYear() < 1900)
             throw new IllegalArgumentException("Ano de nascimento inválido");
 
-        locatarioDto.setDataDeNascimento(dataDeNascimento);
+        locatario.setDataDeNascimento(dataDeNascimento);
     }
 
-    public void setcpf(Integer cpf, LocatarioDto locatarioDto) {
+    public void setcpf(Integer cpf, Locatario locatario) {
         if(cpf == null || 0 >= cpf)
             throw new IllegalArgumentException("cpf inválido");
 
-        locatarioDto.setCpf(cpf);
-    }
-
-    public LocatarioDto criar(LocatarioDto locatarioDto) {
-        setNome(locatarioDto.getNome(), locatarioDto);
-        setEmail(locatarioDto.getEmail(), locatarioDto);
-        setDataDeNascimento(locatarioDto.getDataDeNascimento(), locatarioDto);
-        setcpf(locatarioDto.getCpf(), locatarioDto);
-
-        Locatario locatario = new Locatario();
-        BeanUtils.copyProperties(locatarioDto, locatario);
-        locatario = locatarioRepository.save(locatario);
-        BeanUtils.copyProperties(locatarioDto, locatarioDto);
-
-        return locatarioDto;
+        locatario.setCpf(cpf);
     }
 
     public List<LocatarioDto> listarTodos() {
@@ -105,20 +103,37 @@ public class LocatarioService {
             throw new IllegalArgumentException("Locatario não encontrado");
     }
 
-    public LocatarioDto adicionar(@RequestBody LocatarioDto locatarioDto) {
-        if(locatarioDto.getTelefone() == null ||
-                (12 <= locatarioDto.getTelefone().length() && locatarioDto.getTelefone().length() >= 13) ||
-                (!locatarioDto.getTelefone().contains("(") && !locatarioDto.getTelefone().contains(")")))
+    private void validarTelefone(LocatarioDto locatarioDto) {
+        if(locatarioDto.getTelefone() == null)
+            throw new IllegalArgumentException("Telefone não pode ser nulo");
+
+        if(12 > locatarioDto.getTelefone().length())
+            throw new IllegalArgumentException("Telefone não pode ter menos que 12 dígitos");
+
+        if(locatarioDto.getTelefone().length() > 13)
+            throw new IllegalArgumentException("Telefone não pode ter mais que 13 dígitos");
+
+        if(!locatarioDto.getTelefone().contains("("))
             throw new IllegalArgumentException("Telefone inválido");
 
+        if(!locatarioDto.getTelefone().contains(")"))
+            throw new IllegalArgumentException("Telefone inválido");
+    }
+
+    public LocatarioDto adicionar(LocatarioDto locatarioDto) {
+        List<Locatario> locatarios = locatarioRepository.findAll();
+        for(Locatario locatario : locatarios)
+            if(locatarioDto.getCpf() == locatario.getCpf())
+                throw new LocatarioDuplicadoException("Não é possível criar um locatario duplicado");
+
         Locatario locatario = new Locatario();
-        locatario.setNome(locatarioDto.getNome());
+        setNome(locatarioDto.getNome(), locatario);
+        setTelefone(locatarioDto.getTelefone(), locatario);
+        setEmail(locatarioDto.getEmail(), locatario);
+        setDataDeNascimento(locatarioDto.getDataDeNascimento(), locatario);
+        setcpf(locatarioDto.getCpf(), locatario);
         locatario.setSexo(locatarioDto.getSexo());
-        System.out.println(locatarioDto.getTelefone());
-        locatario.setTelefone(locatarioDto.getTelefone());
-        locatario.setEmail(locatarioDto.getEmail());
-        locatario.setDataDeNascimento(locatarioDto.getDataDeNascimento());
-        locatario.setCpf(locatarioDto.getCpf());
+
 
         Locatario novoLocatario = locatarioRepository.save(locatario);
         LocatarioDto novoLocatarioDto = new LocatarioDto();
@@ -135,22 +150,33 @@ public class LocatarioService {
 
     public void deletarPorId(Long id) {
         Optional<Locatario> locatarioOptional = locatarioRepository.findById(id);
-        if(locatarioOptional.isPresent())
-            locatarioRepository.deleteById(id);
-        else
-            throw new IllegalArgumentException("Locatario não encontrado");
+        if(!locatarioOptional.isPresent())
+            throw new LocatarioNaoEncontradoException("Locatario não encontrado");
+
+        boolean encontrado = false;
+        List<Aluguel> aluguelLista = aluguelRepository.findAll();
+        for(Aluguel aluguel : aluguelLista)
+            if(Objects.equals(aluguel.getLocatario().getId(), id)) {
+                encontrado = true;
+                break;
+            }
+
+        if(encontrado)
+            throw new LocatarioComAluguelException("Não é possível excluir um locatario que contém um aluguel");
+
+        locatarioRepository.deleteById(id);
     }
 
     public LocatarioDto atualizar(Long id, LocatarioDto locatarioDto) {
         Optional<Locatario> locatarioOptional = locatarioRepository.findById(id);
         if(locatarioOptional.isPresent()) {
             Locatario locatario = locatarioOptional.get();
-            locatario.setNome(locatarioDto.getNome());
+            setNome(locatarioDto.getNome(), locatario);
+            setTelefone(locatarioDto.getTelefone(), locatario);
+            setEmail(locatarioDto.getEmail(), locatario);
+            setDataDeNascimento(locatarioDto.getDataDeNascimento(), locatario);
+            setcpf(locatarioDto.getCpf(), locatario);
             locatario.setSexo(locatarioDto.getSexo());
-            locatario.setTelefone(locatarioDto.getTelefone());
-            locatario.setEmail(locatarioDto.getEmail());
-            locatario.setDataDeNascimento(locatarioDto.getDataDeNascimento());
-            locatario.setCpf(locatarioDto.getCpf());
 
             Locatario locatarioAtualizado = locatarioRepository.save(locatario);
             LocatarioDto locatarioAtualizadoDto = new LocatarioDto();

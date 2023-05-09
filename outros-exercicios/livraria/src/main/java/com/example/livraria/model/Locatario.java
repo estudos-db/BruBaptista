@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,4 +21,6 @@ public class Locatario {
     private String email;
     private LocalDate dataDeNascimento;
     private int cpf;
+    @OneToMany
+    private List<Aluguel> alugeis = new ArrayList<>();
 }

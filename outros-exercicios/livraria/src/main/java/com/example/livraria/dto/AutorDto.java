@@ -1,9 +1,12 @@
 package com.example.livraria.dto;
 
+import com.example.livraria.model.Livro;
 import com.example.livraria.model.enums.Sexo;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AutorDto {
     private Long id;
@@ -14,6 +17,7 @@ public class AutorDto {
     private Integer anoDeNascimento;
     @NotNull
     private Integer cpf;
+    private List<Livro> livros = new ArrayList<>();
 
     public Long getId() {
         return id;

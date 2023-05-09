@@ -1,8 +1,8 @@
 package com.example.livraria.service;
 
+import com.example.livraria.model.Autor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.example.livraria.dto.AutorDto;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
@@ -21,72 +21,72 @@ public class AutorServiceTest {
     @DisplayName("Deve modificar o nome do autor")
     @Test
     public void deveModificarNome() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setNome("Teste");
-        autorService.setNome("NovoNome", autorDto);
+        Autor autor = new Autor();
+        autor.setNome("Teste");
+        autorService.setNome("NovoNome", autor);
 
-        assertEquals("NovoNome", autorDto.getNome());
+        assertEquals("NovoNome", autor.getNome());
     }
 
     @DisplayName("Deve retornar erro se o nome do autor for nulo ou vazio")
     @Test
     public void deveRetornarErroNomeNuloOuVazio() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setNome("Teste");
+        Autor autor = new Autor();
+        autor.setNome("Teste");
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setNome("", autorDto));
+                autorService.setNome("", autor));
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setNome(null, autorDto));
+                autorService.setNome(null, autor));
     }
 
     @DisplayName("Deve modificar o ano de nascimento do autor")
     @Test
     public void deveModificarAno() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setAnoDeNascimento(1990);
-        autorService.setAnoDeNascimento(1991, autorDto);
+        Autor autor = new Autor();
+        autor.setAnoDeNascimento(1990);
+        autorService.setAnoDeNascimento(1991, autor);
 
-        assertEquals(1991, autorDto.getAnoDeNascimento());
+        assertEquals(1991, autor.getAnoDeNascimento());
     }
 
     @DisplayName("Deve retornar erro se o ano de nascimento do autor for nulo ou maior que o ano atual")
     @Test
     public void deveRetornarErroAnoNuloOuMaiorQueAtual() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setAnoDeNascimento(1990);
+        Autor autor = new Autor();
+        autor.setAnoDeNascimento(1990);
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setAnoDeNascimento(3030, autorDto));
+                autorService.setAnoDeNascimento(3030, autor));
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setAnoDeNascimento(null, autorDto));
+                autorService.setAnoDeNascimento(null, autor));
     }
 
     @DisplayName("Deve modificar o cpf do autor")
     @Test
     public void deveModificarCpf() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setCpf(123456789);
-        autorService.setcpf(987654321, autorDto);
+        Autor autor = new Autor();
+        autor.setCpf(123456789);
+        autorService.setcpf(987654321, autor);
 
-        assertEquals(987654321, autorDto.getCpf());
+        assertEquals(987654321, autor.getCpf());
     }
 
     @DisplayName("Deve retornar erro se o cpf do autor for nulo, zero ou menor")
     @Test
     public void deveRetornarErroCpfNuloZeroOuMenor() {
-        AutorDto autorDto = new AutorDto();
-        autorDto.setCpf(123456789);
+        Autor autor = new Autor();
+        autor.setCpf(123456789);
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setcpf(null, autorDto));
+                autorService.setcpf(null, autor));
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setcpf(0, autorDto));
+                autorService.setcpf(0, autor));
 
         assertThrows(IllegalArgumentException.class, () ->
-                autorService.setcpf(-10, autorDto));
+                autorService.setcpf(-10, autor));
     }
 }

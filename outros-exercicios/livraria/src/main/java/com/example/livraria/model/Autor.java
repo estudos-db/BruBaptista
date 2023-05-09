@@ -4,6 +4,8 @@ import com.example.livraria.model.enums.Sexo;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,4 +18,6 @@ public class Autor {
     private Sexo sexo;
     private int anoDeNascimento;
     private int cpf;
+    @ManyToMany
+    private List<Livro> livros = new ArrayList<>();
 }
